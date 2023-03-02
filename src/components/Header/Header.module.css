@@ -1,0 +1,6 @@
+.header{
+    grid-area: h;
+    background: #5370B9;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.31);
+    border-radius: 0 0 15px 15px;
+  }
