@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import s from './Dialogs.module.css';
 import {NavLink} from "react-router-dom";
+import {message} from "antd";
 
 type DialogItemPropsType = {
     name: string,
@@ -8,7 +9,17 @@ type DialogItemPropsType = {
 }
 
 type MessagesItemPropsType = {
-    messages: string
+    message: string
+}
+
+type dialogsDataType = {
+    id: number,
+    name: string
+}
+
+type messagesDataType = {
+    id: number,
+    text: string
 }
 
 const DialogItem = (props: DialogItemPropsType) => {
@@ -22,22 +33,35 @@ const DialogItem = (props: DialogItemPropsType) => {
 
 const MessagesItem = (props: MessagesItemPropsType) => {
     return (
-        <div className={s.messagesItem}>props.message</div>
+        <div className={s.messagesItem}>{props.message}</div>
     )
 }
 
 export const Dialogs = () => {
+
+    const [dialogsData, setDialogsData] = useState<dialogsDataType[]>([
+        {id: 1, name: 'Andy'},
+        {id: 2, name: 'Valera'},
+        {id: 3, name: 'Ivan'},
+    ])
+
+    const [messagesData, setMessagesData] = useState<messagesDataType[]>([
+        {id: 1, text: 'Hi!'},
+        {id: 2, text: 'How are you?'},
+        {id: 3, text: 'Were are you?'},
+
+    ])
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
-                <DialogItem name='Andy' id={1}/>
-                <DialogItem name='Valera' id={2}/>
-                <DialogItem name='Ivan' id={3}/>
+                {dialogsData.map(dialog =>{
+                    return <DialogItem name={dialog.name} id={dialog.id} key={dialog.id}/>
+                })}
             </div>
             <div className={s.messagesItems}>
-                <div className={s.messagesItem}>Hi!</div>
-                <div className={s.messagesItem}>How are you?</div>
-                <div className={s.messagesItem}>Were are you?</div>
+                {messagesData.map(message => {
+                    return <MessagesItem message={message.text} key={message.id}/>
+                })}
             </div>
         </div>
     )
