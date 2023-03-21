@@ -45,23 +45,27 @@ export const Dialogs = () => {
         {id: 3, name: 'Ivan'},
     ])
 
+    const dialogsElement = dialogsData.map(dialog =>{
+        return <DialogItem name={dialog.name} id={dialog.id} key={dialog.id}/>
+    })
+
     const [messagesData, setMessagesData] = useState<messagesDataType[]>([
         {id: 1, text: 'Hi!'},
         {id: 2, text: 'How are you?'},
         {id: 3, text: 'Were are you?'},
-
     ])
+
+    const messagesElement = messagesData.map(message => {
+        return <MessagesItem message={message.text} key={message.id}/>
+    })
+
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
-                {dialogsData.map(dialog =>{
-                    return <DialogItem name={dialog.name} id={dialog.id} key={dialog.id}/>
-                })}
+                {dialogsElement}
             </div>
             <div className={s.messagesItems}>
-                {messagesData.map(message => {
-                    return <MessagesItem message={message.text} key={message.id}/>
-                })}
+                {messagesElement}
             </div>
         </div>
     )

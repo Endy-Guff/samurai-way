@@ -1,8 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from './Post/Post';
 
+type postsDataType = {
+    id: number,
+    message: string,
+    likesCount: number
+}
+
 export function MyPosts() {
+
+    const [postsData, setPosts] = useState<postsDataType[]>([
+        {id: 1, message: 'Post 1', likesCount: 2},
+        {id: 2, message: 'Post 3', likesCount: 4},
+        {id: 3, message: 'Post 3', likesCount: 3},
+    ])
+
+    const postsElement = postsData.map(post =>{
+        return <Post key={post.id} message={post.message} likesCount={post.likesCount}/>
+    })
+
     return (
         <div>
             <div className={s.postsHeader}>
@@ -13,9 +30,7 @@ export function MyPosts() {
                 </div>
             </div>
             <div className={s.posts}>
-                <Post message='Post 1'/>
-                <Post message='Post 2'/>
-                <Post message='Post 3'/>
+                {postsElement}
             </div>
         </div>
     )

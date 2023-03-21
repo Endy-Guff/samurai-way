@@ -1,4 +1,8 @@
-.item{
+/*.item{*/
+
+/*}*/
+
+.itemInner{
     display: flex;
     gap: 10px;
 }
