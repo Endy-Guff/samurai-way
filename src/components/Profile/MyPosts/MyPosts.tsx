@@ -1,20 +1,17 @@
 import React, {useState} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from './Post/Post';
+import {postsDataType} from "../../../App";
 
-type postsDataType = {
-    id: number,
-    message: string,
-    likesCount: number
+type MyPostsPropsType = {
+    postsData: postsDataType[]
 }
 
-export function MyPosts() {
+export const MyPosts: React.FC<MyPostsPropsType> = ({
+    postsData
+}) => {
 
-    const [postsData, setPosts] = useState<postsDataType[]>([
-        {id: 1, message: 'Post 1', likesCount: 2},
-        {id: 2, message: 'Post 3', likesCount: 4},
-        {id: 3, message: 'Post 3', likesCount: 3},
-    ])
+
 
     const postsElement = postsData.map(post =>{
         return <Post key={post.id} message={post.message} likesCount={post.likesCount}/>

@@ -2,35 +2,22 @@ import React, {useState} from "react";
 import s from './Dialogs.module.css';
 import {DialogItem} from "./DialogsItem/DialogsItem";
 import {MessagesItem} from "./MessagesItem/MessagesItem";
+import {dialogsDataType, messagesDataType} from "../../App";
 
-type dialogsDataType = {
-    id: number,
-    name: string
+type DialogsPropsType = {
+    dialogsData: dialogsDataType[],
+    messagesData: messagesDataType[]
 }
 
-type messagesDataType = {
-    id: number,
-    text: string
-}
+export const Dialogs: React.FC<DialogsPropsType> = ({
+                                                        dialogsData,
+                                                        messagesData
+}) => {
 
-export const Dialogs = () => {
 
-    const [dialogsData, setDialogsData] = useState<dialogsDataType[]>([
-        {id: 1, name: 'Andy'},
-        {id: 2, name: 'Valera'},
-        {id: 3, name: 'Ivan'},
-    ])
-
-    const dialogsElement = dialogsData.map(dialog =>{
+    const dialogsElement = dialogsData.map(dialog => {
         return <DialogItem name={dialog.name} id={dialog.id} key={dialog.id}/>
     })
-
-    const [messagesData, setMessagesData] = useState<messagesDataType[]>([
-        {id: 1, text: 'Hi!'},
-        {id: 2, text: 'How are you?'},
-        {id: 3, text: 'Were are you?'},
-    ])
-
     const messagesElement = messagesData.map(message => {
         return <MessagesItem message={message.text} key={message.id}/>
     })
