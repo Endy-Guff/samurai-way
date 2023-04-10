@@ -1,7 +1,7 @@
 import React, {createRef, useState} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from './Post/Post';
-import {postsDataType, updateNewPostText} from "../../../redux/state";
+import {postsDataType} from "../../../redux/state";
 
 type MyPostsPropsType = {
     postsData: postsDataType[]
@@ -13,7 +13,8 @@ type MyPostsPropsType = {
 export const MyPosts: React.FC<MyPostsPropsType> = ({
     postsData,
     addPost,
-    textValue
+    textValue,
+    updateNewPostText
 }) => {
 
     const postsElement = postsData.map(post =>{
