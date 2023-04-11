@@ -1,3 +1,9 @@
+const ADD_POST = 'ADD-POST'
+const ADD_MESSAGE = 'ADD-MESSAGE'
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
+const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
+
+
 export type postsDataType = {
     id: number,
     message: string,
@@ -20,6 +26,7 @@ export type profilePageType = {
 }
 
 export type dialogsPageType = {
+    newMessageText: string
     dialogsData: dialogsDataType[],
     messagesData: messagesDataType[]
 }
@@ -29,13 +36,36 @@ export type RootStateType = {
     dialogsPage: dialogsPageType
 }
 
+type AddPostActionType = {
+    type: 'ADD-POST'
+}
+
+type AddMessageActionType = {
+    type: 'ADD-MESSAGE'
+}
+
+type UpdateNewPostTextActionType = {
+    type: 'UPDATE-NEW-POST-TEXT'
+    text: string
+}
+
+type UpdateNewMessageTextActionType = {
+    type: 'UPDATE-NEW-MESSAGE-TEXT'
+    text: string
+}
+
+export type ActionsType = AddPostActionType | UpdateNewPostTextActionType | UpdateNewMessageTextActionType | AddMessageActionType
+
 export type StoreType = {
     _state: RootStateType
+    _rerenderEntireTree: () => void
     getState: () => RootStateType
-    rerenderEntireTree: () => void
-    addPost: ()=>void
-    updateNewPostText: (text: string) => void
+    _addPost: ()=>void
+    _addMessage: () => void
+    _updateNewPostText: (text: string) => void
+    _updateNewMessageText: (text: string) => void
     subscribe: (callback: ()=>void) => void
+    dispatch: (action: ActionsType) => void
 }
 
 export const store: StoreType = {
@@ -49,6 +79,7 @@ export const store: StoreType = {
             ]
         },
         dialogsPage:{
+            newMessageText: '',
             dialogsData: [
                 {id: 1, name: 'Andy'},
                 {id: 2, name: 'Valera'},
@@ -61,13 +92,13 @@ export const store: StoreType = {
             ]
         }
     },
+    _rerenderEntireTree() {
+        console.log('1')
+    },
     getState() {
         return this._state
     },
-    rerenderEntireTree() {
-        console.log('1')
-    },
-    addPost() {
+    _addPost() {
         const newPostItem: postsDataType = {
             id: 4,
             message: this._state.profilePage.newPostText,
@@ -76,18 +107,48 @@ export const store: StoreType = {
 
         this._state.profilePage.postsData.push(newPostItem)
         this._state.profilePage.newPostText = ''
-        this.rerenderEntireTree()
+        this._rerenderEntireTree()
     },
-    updateNewPostText(text: string) {
-        debugger
+    _addMessage() {
+        const newMessageItem: messagesDataType = {
+            id: 4,
+            text: this._state.dialogsPage.newMessageText
+        }
+
+        this._state.dialogsPage.messagesData.push(newMessageItem)
+        this._state.dialogsPage.newMessageText = ''
+        this._rerenderEntireTree()
+    },
+    _updateNewPostText(text: string) {
         this._state.profilePage.newPostText = text
-        debugger
-        this.rerenderEntireTree()
+        this._rerenderEntireTree()
+    },
+    _updateNewMessageText(text: string) {
+        this._state.dialogsPage.newMessageText = text
+        this._rerenderEntireTree()
     },
     subscribe(callback: ()=>void) {
-        this.rerenderEntireTree = callback
+        this._rerenderEntireTree = callback
+    },
+    dispatch(action){
+        if (action.type === ADD_POST){
+            this._addPost()
+        } else if (action.type === UPDATE_NEW_POST_TEXT){
+            this._updateNewPostText(action.text)
+        } else if (action.type === UPDATE_NEW_MESSAGE_TEXT){
+            this._updateNewMessageText(action.text)
+        } else if (action.type === ADD_MESSAGE){
+            this._addMessage()
+        }
     }
 }
+
+export const addPostActionCreator = (): AddPostActionType =>({type: ADD_POST})
+export const addMessageActionType = (): AddMessageActionType => ({type: ADD_MESSAGE})
+export const updateNewPostTextActionCreator = (text: string): UpdateNewPostTextActionType =>
+    ({type: UPDATE_NEW_POST_TEXT, text})
+export const updateNewMessageTextActionCreator = (text: string): UpdateNewMessageTextActionType =>
+    ({type: UPDATE_NEW_MESSAGE_TEXT, text})
 
 // export let state: RootStateType = {
 //     profilePage:{
