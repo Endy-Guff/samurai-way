@@ -58,13 +58,13 @@ export type ActionsType = AddPostActionType | UpdateNewPostTextActionType | Upda
 
 export type StoreType = {
     _state: RootStateType
-    _rerenderEntireTree: () => void
+    _rerenderEntireTree: (state: RootStateType) => void
     getState: () => RootStateType
     _addPost: ()=>void
     _addMessage: () => void
     _updateNewPostText: (text: string) => void
     _updateNewMessageText: (text: string) => void
-    subscribe: (callback: ()=>void) => void
+    subscribe: (callback: (state: RootStateType)=>void) => void
     dispatch: (action: ActionsType) => void
 }
 
@@ -107,7 +107,7 @@ export const store: StoreType = {
 
         this._state.profilePage.postsData.push(newPostItem)
         this._state.profilePage.newPostText = ''
-        this._rerenderEntireTree()
+        this._rerenderEntireTree(this._state)
     },
     _addMessage() {
         const newMessageItem: messagesDataType = {
@@ -117,17 +117,17 @@ export const store: StoreType = {
 
         this._state.dialogsPage.messagesData.push(newMessageItem)
         this._state.dialogsPage.newMessageText = ''
-        this._rerenderEntireTree()
+        this._rerenderEntireTree(this._state)
     },
     _updateNewPostText(text: string) {
         this._state.profilePage.newPostText = text
-        this._rerenderEntireTree()
+        this._rerenderEntireTree(this._state)
     },
     _updateNewMessageText(text: string) {
         this._state.dialogsPage.newMessageText = text
-        this._rerenderEntireTree()
+        this._rerenderEntireTree(this._state)
     },
-    subscribe(callback: ()=>void) {
+    subscribe(callback: (state: RootStateType)=>void) {
         this._rerenderEntireTree = callback
     },
     dispatch(action){
