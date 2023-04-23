@@ -12,7 +12,7 @@ export type UpdateNewMessageTextActionType = {
     text: string
 }
 
-export const addMessageActionType = (): AddMessageActionType => ({type: ADD_MESSAGE})
+export const addMessageActionCreator = (): AddMessageActionType => ({type: ADD_MESSAGE})
 export const updateNewMessageTextActionCreator = (text: string): UpdateNewMessageTextActionType =>
     ({type: UPDATE_NEW_MESSAGE_TEXT, text})
 

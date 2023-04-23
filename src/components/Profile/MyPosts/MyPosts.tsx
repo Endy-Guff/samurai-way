@@ -1,35 +1,36 @@
-import React, {createRef, useState} from 'react';
+import React from 'react';
 import s from './MyPosts.module.css'
 import {Post} from './Post/Post';
-import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/profileReducer";
-import {ActionsType, postsDataType} from "../../../redux/reduxStore";
+import {postsDataType} from "../../../redux/reduxStore";
 
 type MyPostsPropsType = {
-    postsData: postsDataType[]
+    posts: postsDataType[]
     textValue: string
-    dispatch: (action: ActionsType) => void
+    addPost: ()=>void
+    changePostValue: (text: string)=>void
 }
 
 export const MyPosts: React.FC<MyPostsPropsType> = ({
-    postsData,
+    posts,
     textValue,
-    dispatch,
+    addPost,
+    changePostValue
 }) => {
 
-    const postsElement = postsData.map(post =>{
+    const postsElement = posts.map(post =>{
         return <Post key={post.id} message={post.message} likesCount={post.likesCount}/>
     })
 
     const newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const addPostHandler = () =>{
-        dispatch(addPostActionCreator())
+        addPost()
     }
 
     const changeHandler = () =>{
         if (newPostElement.current){
             const text = newPostElement.current.value
-            dispatch(updateNewPostTextActionCreator(text))
+            changePostValue(text)
         }
     }
 

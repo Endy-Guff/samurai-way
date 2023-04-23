@@ -36,9 +36,16 @@ export type RootStateType = {
 
 export type ActionsType = AddPostActionType | UpdateNewPostTextActionType | UpdateNewMessageTextActionType | AddMessageActionType
 
+export type StoreType = {
+    state: RootStateType,
+    getState: () => RootStateType
+    subscribe: (callback: (state: RootStateType)=>void) => void
+    dispatch: (action: ActionsType) => void
+}
+
 const reducers = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer
 })
 
-export const store = createStore(reducers)
+export const store: StoreType = createStore(reducers)

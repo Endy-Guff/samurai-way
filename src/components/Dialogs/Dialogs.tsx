@@ -1,19 +1,20 @@
-import React, {useState} from "react";
+import React from "react";
 import s from './Dialogs.module.css';
 import {DialogItem} from "./DialogsItem/DialogsItem";
 import {MessagesItem} from "./MessagesItem/MessagesItem";
-import {ActionsType, dialogsPageType,} from "../../redux/reduxStore";
-import {addMessageActionType, updateNewMessageTextActionCreator} from "../../redux/dialogsReducer";
+import {dialogsPageType,} from "../../redux/reduxStore";
 
 type DialogsPropsType = {
     state: dialogsPageType
-    dispatch: (action: ActionsType) => void
+    addMessage: ()=> void
+    updateNewMessageText: (text: string)=>void
 }
 
 export const Dialogs: React.FC<DialogsPropsType> = (
     {
         state,
-        dispatch
+        addMessage,
+        updateNewMessageText
     }
 ) => {
 
@@ -26,13 +27,14 @@ export const Dialogs: React.FC<DialogsPropsType> = (
     })
 
     const newMessageElement = React.createRef<HTMLTextAreaElement>()
-    const addMessage = () =>{
-        dispatch(addMessageActionType())
+    const addMessageHandler = () =>{
+        addMessage()
     }
 
     const newMessageHandler = () =>{
         if (newMessageElement.current){
-            dispatch(updateNewMessageTextActionCreator(newMessageElement.current.value))
+            const text = newMessageElement.current.value
+                updateNewMessageText(text)
         }
     }
 
@@ -51,7 +53,7 @@ export const Dialogs: React.FC<DialogsPropsType> = (
                               ref={newMessageElement}
                               onChange={newMessageHandler}
                     />
-                    <button className={s.button} onClick={addMessage}>add</button>
+                    <button className={s.button} onClick={addMessageHandler}>add</button>
                 </div>
             </div>
         </div>
