@@ -2,7 +2,7 @@ import React, {createRef, useState} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from './Post/Post';
 import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/profileReducer";
-import {ActionsType, postsDataType} from "../../../redux/state";
+import {ActionsType, postsDataType} from "../../../redux/reduxStore";
 
 type MyPostsPropsType = {
     postsData: postsDataType[]

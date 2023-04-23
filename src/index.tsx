@@ -1,7 +1,7 @@
 import React from 'react';
 import 'normalize.css'
 import './index.css';
-import {RootStateType, store} from './redux/state'
+import {RootStateType, store} from './redux/reduxStore'
 import ReactDOM from "react-dom";
 import App from "./App";
 
@@ -18,4 +18,7 @@ export const rerenderEntireTree = (state: RootStateType) =>{
     );
 }
 rerenderEntireTree(store.getState())
-store.subscribe(rerenderEntireTree)
+store.subscribe(()=> {
+    const state = store.getState()
+    rerenderEntireTree(state)
+})
