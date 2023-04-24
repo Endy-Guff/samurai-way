@@ -9,16 +9,16 @@ import {ActionsType, RootStateType, StoreType} from "./redux/reduxStore";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 type AppPropsType = {
-    store: StoreType
-    state: RootStateType
-    dispatch: (action: ActionsType) => void
+    // store: StoreType
+    // state: RootStateType
+    // dispatch: (action: ActionsType) => void
 }
 
 const App: React.FC<AppPropsType> = (
     {
-        store,
-        state,
-        dispatch
+        // store,
+        // state,
+        // dispatch
     }
 ) => {
 
@@ -29,9 +29,9 @@ const App: React.FC<AppPropsType> = (
                 <Navbar/>
                 <div className="app-wrapper-content">
                     <Routes>
-                        <Route path='/profile' element={<Profile store={store}
+                        <Route path='/profile' element={<Profile
                         />}/>
-                        <Route path='/dialogs/*' element={<DialogsContainer store={store}
+                        <Route path='/dialogs/*' element={<DialogsContainer
                         />}/>
                     </Routes>
                 </div>
