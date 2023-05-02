@@ -1,16 +1,9 @@
 import React from 'react';
 import s from './MyPosts.module.css'
 import {Post} from './Post/Post';
-import {postsDataType} from "../../../redux/reduxStore";
+import {MyPostsMapPropsType} from "./MyPostsContainer";
 
-type MyPostsPropsType = {
-    posts: postsDataType[]
-    textValue: string
-    addPost: ()=>void
-    changePostValue: (text: string)=>void
-}
-
-export const MyPosts: React.FC<MyPostsPropsType> = ({
+export const MyPosts: React.FC<MyPostsMapPropsType> = ({
     posts,
     textValue,
     addPost,

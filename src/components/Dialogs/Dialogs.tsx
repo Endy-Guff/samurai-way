@@ -3,14 +3,9 @@ import s from './Dialogs.module.css';
 import {DialogItem} from "./DialogsItem/DialogsItem";
 import {MessagesItem} from "./MessagesItem/MessagesItem";
 import {dialogsPageType,} from "../../redux/reduxStore";
+import {DialogsMapProps} from "./DialogsContainer";
 
-type DialogsPropsType = {
-    state: dialogsPageType
-    addMessage: ()=> void
-    updateNewMessageText: (text: string)=>void
-}
-
-export const Dialogs: React.FC<DialogsPropsType> = (
+export const Dialogs: React.FC<DialogsMapProps> = (
     {
         state,
         addMessage,

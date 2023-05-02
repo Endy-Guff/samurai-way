@@ -4,8 +4,7 @@ import './index.css';
 import {RootStateType, store} from './redux/reduxStore'
 import ReactDOM from "react-dom";
 import App from "./App";
-import {Provider} from "./StoreContext";
-
+import {Provider} from "react-redux";
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 
