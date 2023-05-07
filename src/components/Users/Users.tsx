@@ -1,6 +1,8 @@
 import React from "react";
 import s from './Users.module.css'
 import {MapToPropsType} from "./UsersContainer";
+import {instance} from "../../redux/reduxStore";
+import localPhoto from "../../assets/img/user.png"
 
 export const Users: React.FC<MapToPropsType> = (
     {
@@ -12,23 +14,19 @@ export const Users: React.FC<MapToPropsType> = (
 ) =>{
 
     if(state.length === 0){
-        setUsers([
-            {id: 1, photoUrl: 'https://i.yapx.cc/PdTRP.jpg', followed: true, fullName: 'Andrey', status: 'qwerty', location: {country: 'Russia', city: 'Rostov'}},
-            {id: 2, photoUrl: 'https://i.yapx.cc/PdTRP.jpg', followed: false, fullName: 'Andre', status: 'qwerty123', location: {country: 'Ukraine', city: 'Kiev'}},
-            {id: 3, photoUrl: 'https://i.yapx.cc/PdTRP.jpg', followed: true, fullName: 'Ivan', status: 'qwerty2234', location: {country: 'Russia', city: 'Moscow'}},
-        ])
+        debugger
+        instance.get('https://social-network.samuraijs.com/api/1.0/users').then(response=>setUsers(response.data.items))
     }
 
 
     const mappedUsers = state.map(u=>{return(
-        <div className={s.user}>
+        <div className={s.user} key={u.id}>
             <div className={s.inform}>
                 <div className={s.avaBlock}>
-                    <img className={s.img} src={u.photoUrl} alt=""/>
+                    <img className={s.img} src={u.photos.small!=null?u.photos.small:localPhoto} alt=""/>
                 </div>
                 <div className={s.desc}>
-                    <span className={s.name}>{u.fullName}</span>
-                    <span className={s.location}>{u.location.country}, {u.location.city}</span>
+                    <span className={s.name}>{u.name}</span>
                     <span className={s.status}>{u.status}</span>
                 </div>
             </div>
