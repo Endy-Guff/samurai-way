@@ -5,14 +5,11 @@ import {instance} from "../../redux/reduxStore";
 import localPhoto from "../../assets/img/user.png"
 
 export class Users extends React.Component<MapToPropsType> {
-    constructor(props: MapToPropsType) {
-        super(props);
-        instance.get('https://social-network.samuraijs.com/api/1.0/users').then(response=>this.props.setUsers(response.data.items))
-    }
 
-
-
-render()
+componentDidMount() {
+    instance.get('https://social-network.samuraijs.com/api/1.0/users').then(response=>this.props.setUsers(response.data.items))
+}
+    render()
 {
     return (
         <div className={s.wrapper}>
