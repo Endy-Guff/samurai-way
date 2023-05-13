@@ -1,7 +1,13 @@
 import {combineReducers, createStore} from "redux";
 import {AddPostActionType, profileReducer, UpdateNewPostTextActionType} from "./profileReducer";
 import {AddMessageActionType, dialogsReducer, UpdateNewMessageTextActionType} from "./dialogsReducer";
-import {FollowActionType, SetUsersActionType, UnfollowActionType, usersReducer} from "./usersReducer";
+import {
+    FollowActionType,
+    SetCurrentPageActionType, setTotalCountAC, SetTotalCountActionType,
+    SetUsersActionType,
+    UnfollowActionType,
+    usersReducer
+} from "./usersReducer";
 import * as axios from "axios"
 
 export const instance = axios.default.create({
@@ -54,6 +60,9 @@ export type usersDataType = {
 
 export type usersPageType = {
     users: usersDataType[]
+    pageSize: number
+    totalCount: number
+    currentPage: number
 }
 
 
@@ -65,6 +74,7 @@ export type RootStateType = {
 export type ActionsType = AddPostActionType | UpdateNewPostTextActionType
     | UpdateNewMessageTextActionType | AddMessageActionType
     | FollowActionType | UnfollowActionType | SetUsersActionType
+    | SetCurrentPageActionType | SetTotalCountActionType
 
 export type StoreType = ReturnType<typeof reducers>
 
