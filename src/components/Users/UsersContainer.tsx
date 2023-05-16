@@ -1,9 +1,38 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Users} from "./Users";
-import {StoreType, usersDataType} from "../../redux/reduxStore";
+import {instance, StoreType, usersDataType} from "../../redux/reduxStore";
 import {Dispatch} from "redux";
 import {followAC, setCurrentPageAC, setTotalCountAC, setUsersAC, unfollowAC} from "../../redux/usersReducer";
+import {Users} from "./Users";
+
+export class UsersAPIComponent extends React.Component<MapToPropsType> {
+
+    componentDidMount() {
+        instance
+            .get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`)
+            .then(response => {
+                this.props.setUsers(response.data.items)
+                this.props.setTotalCount(response.data.totalCount)
+            })
+    }
+    changePage = (p: number) =>{
+        this.props.setCurrentPage(p)
+        instance
+            .get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${p}`)
+            .then(response => this.props.setUsers(response.data.items))
+    }
+
+    render() {
+        return <Users totalCount={this.props.totalCount}
+                      pageSize={this.props.pageSize}
+                      currentPage={this.props.currentPage}
+                      changePage={this.changePage}
+                      users={this.props.state}
+                      follow={this.props.follow}
+                      unfollow={this.props.unfollow}
+        />
+    }
+}
 
 type MapStateToPropsType = {
     state: usersDataType[]
@@ -52,4 +81,4 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps =>{
 }
 
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users)
+export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
