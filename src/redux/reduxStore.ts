@@ -4,7 +4,7 @@ import {AddMessageActionType, dialogsReducer, UpdateNewMessageTextActionType} fr
 import {
     FollowActionType,
     SetCurrentPageActionType, setTotalCountAC, SetTotalCountActionType,
-    SetUsersActionType, toggleIsFetchingActionType,
+    SetUsersActionType, ToggleIsFetchingActionType,
     UnfollowActionType,
     usersReducer
 } from "./usersReducer";
@@ -76,7 +76,7 @@ export type ActionsType = AddPostActionType | UpdateNewPostTextActionType
     | UpdateNewMessageTextActionType | AddMessageActionType
     | FollowActionType | UnfollowActionType | SetUsersActionType
     | SetCurrentPageActionType | SetTotalCountActionType
-    | toggleIsFetchingActionType
+    | ToggleIsFetchingActionType
 
 export type StoreType = ReturnType<typeof reducers>
 

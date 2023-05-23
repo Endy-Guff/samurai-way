@@ -10,7 +10,6 @@ import {
     unfollowAC
 } from "../../redux/usersReducer";
 import {Users} from "./Users";
-import loader from '../../assets/img/loader.gif'
 import {Preloader} from "../common/Preloader/Preloader";
 
 export class UsersAPIComponent extends React.Component<MapToPropsType> {

@@ -32,7 +32,7 @@ export type SetTotalCountActionType = {
     totalCount: number
 }
 
-export type toggleIsFetchingActionType = {
+export type ToggleIsFetchingActionType = {
     type: 'TOGGLE-IS-FETCHING'
     isFetching: boolean
 }
@@ -42,7 +42,7 @@ export const unfollowAC = (id: number): UnfollowActionType => ({type: UNFOLLOW, 
 export const setUsersAC = (users: usersDataType[]): SetUsersActionType => ({type: SET_USERS, users})
 export const setCurrentPageAC = (currentPage: number): SetCurrentPageActionType => ({type: SET_CURRENT_PAGE, currentPage})
 export const setTotalCountAC = (totalCount: number): SetTotalCountActionType => ({type: SET_TOTAL_COUNT, totalCount})
-export const toggleIsFetchingAC = (isFetching: boolean): toggleIsFetchingActionType => ({type: TOGGLE_IS_FETCHING, isFetching})
+export const toggleIsFetchingAC = (isFetching: boolean): ToggleIsFetchingActionType => ({type: TOGGLE_IS_FETCHING, isFetching})
 
 const initialState: usersPageType = {
     users: [],
