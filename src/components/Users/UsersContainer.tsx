@@ -2,28 +2,45 @@ import React from "react";
 import {connect} from "react-redux";
 import {instance, StoreType, usersDataType} from "../../redux/reduxStore";
 import {Dispatch} from "redux";
-import {followAC, setCurrentPageAC, setTotalCountAC, setUsersAC, unfollowAC} from "../../redux/usersReducer";
+import {
+    followAC,
+    setCurrentPageAC,
+    setTotalCountAC,
+    setUsersAC, toggleIsFetchingAC,
+    unfollowAC
+} from "../../redux/usersReducer";
 import {Users} from "./Users";
+import loader from '../../assets/img/loader.gif'
+import {Preloader} from "../common/Preloader/Preloader";
 
 export class UsersAPIComponent extends React.Component<MapToPropsType> {
 
     componentDidMount() {
+        this.props.toggleIsFetching(true)
         instance
             .get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`)
             .then(response => {
                 this.props.setUsers(response.data.items)
                 this.props.setTotalCount(response.data.totalCount)
+                this.props.toggleIsFetching(false)
             })
     }
     changePage = (p: number) =>{
+        this.props.toggleIsFetching(true)
         this.props.setCurrentPage(p)
         instance
             .get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${p}`)
-            .then(response => this.props.setUsers(response.data.items))
+            .then(response => {
+                this.props.setUsers(response.data.items)
+                this.props.toggleIsFetching(false)
+            })
     }
 
     render() {
-        return <Users totalCount={this.props.totalCount}
+        return(
+        <>
+            {this.props.isFetching? <Preloader /> :null}
+            <Users totalCount={this.props.totalCount}
                       pageSize={this.props.pageSize}
                       currentPage={this.props.currentPage}
                       changePage={this.changePage}
@@ -31,6 +48,7 @@ export class UsersAPIComponent extends React.Component<MapToPropsType> {
                       follow={this.props.follow}
                       unfollow={this.props.unfollow}
         />
+        </>)
     }
 }
 
@@ -39,6 +57,7 @@ type MapStateToPropsType = {
     pageSize: number
     totalCount: number
     currentPage: number
+    isFetching: boolean
 }
 
 type MapDispatchToProps = {
@@ -47,6 +66,7 @@ type MapDispatchToProps = {
     setUsers: (users: usersDataType[])=>void
     setCurrentPage: (currentPage: number)=>void
     setTotalCount: (totalCount: number) => void
+    toggleIsFetching: (isFetcing: boolean) => void
 }
 
 export type MapToPropsType = MapStateToPropsType & MapDispatchToProps
@@ -56,7 +76,8 @@ const mapStateToProps = (state: StoreType): MapStateToPropsType =>{
         state: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
         totalCount: state.usersPage.totalCount,
-        currentPage: state.usersPage.currentPage
+        currentPage: state.usersPage.currentPage,
+        isFetching: state.usersPage.isFetching
     }
 }
 
@@ -76,6 +97,9 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps =>{
         },
         setTotalCount: (totalCount: number) =>{
             dispatch(setTotalCountAC(totalCount))
+        },
+        toggleIsFetching: (isFetching: boolean) =>{
+            dispatch(toggleIsFetchingAC(isFetching))
         }
     }
 }

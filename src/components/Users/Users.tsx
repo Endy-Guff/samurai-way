@@ -21,7 +21,7 @@ export const Users: React.FC<UsersPropsType> = (
         changePage,
         users,
         follow,
-        unfollow
+        unfollow,
     }
 ) => {
 
@@ -35,6 +35,7 @@ export const Users: React.FC<UsersPropsType> = (
         <div className={s.wrapper}>
             <div className={s.pageBox}>
                 {page.map(p => <span
+                    key={p}
                     className={currentPage === p ? s.page + ' ' + s.active : s.page}
                     onClick={() => changePage(p)}
                 >{p}</span>)}
