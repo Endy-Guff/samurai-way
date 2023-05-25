@@ -12,7 +12,7 @@ import {
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
 
-export class UsersAPIComponent extends React.Component<MapToPropsType> {
+export class UsersAPIComponent extends React.Component<UsersMapToPropsType> {
 
     componentDidMount() {
         this.props.toggleIsFetching(true)
@@ -68,7 +68,7 @@ type MapDispatchToProps = {
     toggleIsFetching: (isFetcing: boolean) => void
 }
 
-export type MapToPropsType = MapStateToPropsType & MapDispatchToProps
+export type UsersMapToPropsType = MapStateToPropsType & MapDispatchToProps
 
 const mapStateToProps = (state: StoreType): MapStateToPropsType =>{
     return{

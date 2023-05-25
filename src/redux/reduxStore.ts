@@ -1,5 +1,10 @@
 import {combineReducers, createStore} from "redux";
-import {AddPostActionType, profileReducer, UpdateNewPostTextActionType} from "./profileReducer";
+import {
+    AddPostActionType,
+    profileReducer,
+    SetUserProfileActionCreator,
+    UpdateNewPostTextActionType
+} from "./profileReducer";
 import {AddMessageActionType, dialogsReducer, UpdateNewMessageTextActionType} from "./dialogsReducer";
 import {
     FollowActionType,
@@ -13,7 +18,7 @@ import * as axios from "axios"
 export const instance = axios.default.create({
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0',
-    headers:     {
+    headers: {
         "API-KEY": "cfa12c32-1348-432a-abcd-90b2663004a3"
     }
 });
@@ -34,7 +39,30 @@ export type messagesDataType = {
     text: string
 }
 
+export type profileType = null | {
+    aboutMe: string
+    contacts: {
+        facebook: string
+        website: string
+        vk: string
+        twitter: string
+        instagram: string
+        youtube: string
+        github: string
+        mainLink: string
+    },
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string
+    fullName: string,
+    userId: number
+    photos: {
+        small: string
+        large: string
+    }
+}
+
 export type profilePageType = {
+    profile: profileType
     newPostText: string
     postsData: postsDataType[]
 }
@@ -76,7 +104,7 @@ export type ActionsType = AddPostActionType | UpdateNewPostTextActionType
     | UpdateNewMessageTextActionType | AddMessageActionType
     | FollowActionType | UnfollowActionType | SetUsersActionType
     | SetCurrentPageActionType | SetTotalCountActionType
-    | ToggleIsFetchingActionType
+    | ToggleIsFetchingActionType | SetUserProfileActionCreator
 
 export type StoreType = ReturnType<typeof reducers>
 

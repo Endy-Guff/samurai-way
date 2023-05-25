@@ -2,6 +2,7 @@ import React from 'react';
 import s from "./Users.module.css";
 import localPhoto from "../../assets/img/user.png";
 import {usersDataType} from "../../redux/reduxStore";
+import {NavLink} from "react-router-dom";
 
 type UsersPropsType = {
     totalCount: number
@@ -46,9 +47,11 @@ export const Users: React.FC<UsersPropsType> = (
                         <div className={s.user} key={u.id}>
                             <div className={s.inform}>
                                 <div className={s.avaBlock}>
+                                    <NavLink to={'/profile/' + u.id}>
                                     <img className={s.img}
                                          src={u.photos.small != null ? u.photos.small : localPhoto}
                                          alt=""/>
+                                    </NavLink>
                                 </div>
                                 <div className={s.desc}>
                                     <span className={s.name}>{u.name}</span>
