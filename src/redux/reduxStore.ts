@@ -14,6 +14,7 @@ import {
     usersReducer
 } from "./usersReducer";
 import * as axios from "axios"
+import {authReducer, setUserDataActionType} from "./authReducer";
 
 export const instance = axios.default.create({
     withCredentials: true,
@@ -105,13 +106,15 @@ export type ActionsType = AddPostActionType | UpdateNewPostTextActionType
     | FollowActionType | UnfollowActionType | SetUsersActionType
     | SetCurrentPageActionType | SetTotalCountActionType
     | ToggleIsFetchingActionType | SetUserProfileActionCreator
+    | setUserDataActionType
 
 export type StoreType = ReturnType<typeof reducers>
 
 const reducers = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
-    usersPage: usersReducer
+    usersPage: usersReducer,
+    auth: authReducer
 })
 
 export const store = createStore(reducers)

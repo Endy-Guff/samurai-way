@@ -9,7 +9,7 @@ import {useParams} from "react-router-dom";
 export function withRouter(Children: any){
     return(props: ProfileMapToPropsType)=>{
 
-        const match  = {params: useParams()};
+        const match  = {params: useParams<{id: string}>()};
         return <Children {...props}  match = {match}/>
     }
 }
