@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {instance, StoreType, usersDataType} from "../../redux/reduxStore";
+import {StoreType, usersDataType} from "../../redux/reduxStore";
 import {Dispatch} from "redux";
 import {
     followAC,
@@ -11,26 +11,25 @@ import {
 } from "../../redux/usersReducer";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
+import {usersAPI} from "../../api/api";
 
 export class UsersAPIComponent extends React.Component<UsersMapToPropsType> {
 
     componentDidMount() {
         this.props.toggleIsFetching(true)
-        instance
-            .get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`)
-            .then(response => {
-                this.props.setUsers(response.data.items)
-                this.props.setTotalCount(response.data.totalCount)
+        usersAPI.getUsers(this.props.pageSize, this.props.currentPage)
+        .then(data => {
+                this.props.setUsers(data.items)
+                this.props.setTotalCount(data.totalCount)
                 this.props.toggleIsFetching(false)
             })
     }
     changePage = (p: number) =>{
         this.props.toggleIsFetching(true)
         this.props.setCurrentPage(p)
-        instance
-            .get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${p}`)
-            .then(response => {
-                this.props.setUsers(response.data.items)
+        usersAPI.getUsers(this.props.pageSize, p)
+        .then(data => {
+                this.props.setUsers(data.items)
                 this.props.toggleIsFetching(false)
             })
     }

@@ -1,8 +1,9 @@
 import React from 'react';
 import s from "./Users.module.css";
 import localPhoto from "../../assets/img/user.png";
-import {instance, usersDataType} from "../../redux/reduxStore";
+import {usersDataType} from "../../redux/reduxStore";
 import {NavLink} from "react-router-dom";
+import {usersAPI} from "../../api/api";
 
 type UsersPropsType = {
     totalCount: number
@@ -46,20 +47,18 @@ export const Users: React.FC<UsersPropsType> = (
                 users.map(u => {
 
                     const followHandler = () =>{
-                        instance
-                            .post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {})
-                            .then((res)=>{
-                                if (res.data.resultCode===0){
+                        usersAPI.follow(u.id)
+                            .then((data)=>{
+                                if (data.resultCode===0){
                                     follow(u.id)
                                 }
                         })
                     }
 
                     const unfollowHandler = () => {
-                        instance
-                            .delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`)
-                            .then((res)=>{
-                                if (res.data.resultCode===0){
+                        usersAPI.unfollow(u.id)
+                            .then((data)=>{
+                                if (data.resultCode===0){
                                     unfollow(u.id)
                                 }
                             })

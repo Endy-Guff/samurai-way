@@ -16,14 +16,6 @@ import {
 import * as axios from "axios"
 import {authReducer, setUserDataActionType} from "./authReducer";
 
-export const instance = axios.default.create({
-    withCredentials: true,
-    baseURL: 'https://social-network.samuraijs.com/api/1.0',
-    headers: {
-        "API-KEY": "cfa12c32-1348-432a-abcd-90b2663004a3"
-    }
-});
-
 export type postsDataType = {
     id: number,
     message: string,

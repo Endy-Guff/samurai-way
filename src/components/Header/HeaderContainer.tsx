@@ -1,17 +1,18 @@
 import React from 'react';
 import {Header} from "./Header";
 import {connect} from "react-redux";
-import {instance, StoreType} from "../../redux/reduxStore";
+import { StoreType} from "../../redux/reduxStore";
 import {Dispatch} from "redux";
 import {setAuthUserDataAC} from "../../redux/authReducer";
+import {authAPI} from "../../api/api";
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType>{
 
     componentDidMount() {
-        instance.get('https://social-network.samuraijs.com/api/1.0/auth/me')
-            .then(res=>{
-                 if (res.data.resultCode===0){
-                     return res.data.data
+        authAPI.getMe()
+            .then(data=>{
+                 if (data.resultCode===0){
+                     return data.data
                  }
             })
             .then(data=> {
