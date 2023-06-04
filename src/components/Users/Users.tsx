@@ -1,7 +1,7 @@
 import React from 'react';
 import s from "./Users.module.css";
 import localPhoto from "../../assets/img/user.png";
-import {usersDataType} from "../../redux/reduxStore";
+import {instance, usersDataType} from "../../redux/reduxStore";
 import {NavLink} from "react-router-dom";
 
 type UsersPropsType = {
@@ -32,6 +32,7 @@ export const Users: React.FC<UsersPropsType> = (
         page.push(i)
     }
 
+
     return (
         <div className={s.wrapper}>
             <div className={s.pageBox}>
@@ -43,7 +44,28 @@ export const Users: React.FC<UsersPropsType> = (
             </div>
             {
                 users.map(u => {
-                    return (
+
+                    const followHandler = () =>{
+                        instance
+                            .post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {})
+                            .then((res)=>{
+                                if (res.data.resultCode===0){
+                                    follow(u.id)
+                                }
+                        })
+                    }
+
+                    const unfollowHandler = () => {
+                        instance
+                            .delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`)
+                            .then((res)=>{
+                                if (res.data.resultCode===0){
+                                    unfollow(u.id)
+                                }
+                            })
+                    }
+
+                        return (
                         <div className={s.user} key={u.id}>
                             <div className={s.inform}>
                                 <div className={s.avaBlock}>
@@ -61,9 +83,9 @@ export const Users: React.FC<UsersPropsType> = (
                             <div className={s.btnBox}>
                                 {u.followed
                                     ? <button className={s.btn}
-                                              onClick={() => unfollow(u.id)}>unfollow</button>
+                                              onClick={unfollowHandler}>unfollow</button>
                                     : <button className={s.btn}
-                                              onClick={() => follow(u.id)}>follow</button>
+                                              onClick={followHandler}>follow</button>
                                 }
                             </div>
                         </div>
