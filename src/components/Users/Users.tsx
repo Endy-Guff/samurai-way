@@ -4,15 +4,18 @@ import localPhoto from "../../assets/img/user.png";
 import {usersDataType} from "../../redux/reduxStore";
 import {NavLink} from "react-router-dom";
 import {usersAPI} from "../../api/api";
+import {toggleIsFollowingAC} from "../../redux/usersReducer";
 
 type UsersPropsType = {
     totalCount: number
     pageSize: number
     currentPage: number
-    changePage: (p: number) => void
+    followingProgress: number[]
     users: usersDataType[]
+    changePage: (p: number) => void
     follow: (id: number) => void
     unfollow: (id: number) => void
+    toggleIsFollowing: (isFollowing: boolean, userId: number) => void
 }
 
 export const Users: React.FC<UsersPropsType> = (
@@ -20,10 +23,12 @@ export const Users: React.FC<UsersPropsType> = (
         totalCount,
         pageSize,
         currentPage,
-        changePage,
         users,
+        followingProgress,
+        changePage,
         follow,
         unfollow,
+        toggleIsFollowing
     }
 ) => {
 
@@ -47,20 +52,24 @@ export const Users: React.FC<UsersPropsType> = (
                 users.map(u => {
 
                     const followHandler = () =>{
+                        toggleIsFollowing(true, u.id)
                         usersAPI.follow(u.id)
                             .then((data)=>{
                                 if (data.resultCode===0){
                                     follow(u.id)
                                 }
+                                toggleIsFollowing(false, u.id)
                         })
                     }
 
                     const unfollowHandler = () => {
+                        toggleIsFollowing(true, u.id)
                         usersAPI.unfollow(u.id)
                             .then((data)=>{
                                 if (data.resultCode===0){
                                     unfollow(u.id)
                                 }
+                                toggleIsFollowing(false, u.id)
                             })
                     }
 
@@ -82,8 +91,10 @@ export const Users: React.FC<UsersPropsType> = (
                             <div className={s.btnBox}>
                                 {u.followed
                                     ? <button className={s.btn}
+                                              disabled={followingProgress.some(id=>id===u.id)}
                                               onClick={unfollowHandler}>unfollow</button>
                                     : <button className={s.btn}
+                                              disabled={followingProgress.some(id=>id===u.id)}
                                               onClick={followHandler}>follow</button>
                                 }
                             </div>

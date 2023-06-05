@@ -6,7 +6,7 @@ import {
     followAC,
     setCurrentPageAC,
     setTotalCountAC,
-    setUsersAC, toggleIsFetchingAC,
+    setUsersAC, toggleIsFetchingAC, toggleIsFollowingAC,
     unfollowAC
 } from "../../redux/usersReducer";
 import {Users} from "./Users";
@@ -45,6 +45,8 @@ export class UsersAPIComponent extends React.Component<UsersMapToPropsType> {
                       users={this.props.state}
                       follow={this.props.follow}
                       unfollow={this.props.unfollow}
+                      followingProgress={this.props.followingProgress}
+                      toggleIsFollowing={this.props.toggleIsFollowing}
         />
         </>)
     }
@@ -56,6 +58,7 @@ type MapStateToPropsType = {
     totalCount: number
     currentPage: number
     isFetching: boolean
+    followingProgress: number[]
 }
 
 type MapDispatchToProps = {
@@ -65,6 +68,7 @@ type MapDispatchToProps = {
     setCurrentPage: (currentPage: number)=>void
     setTotalCount: (totalCount: number) => void
     toggleIsFetching: (isFetcing: boolean) => void
+    toggleIsFollowing: (isFollowing: boolean, userId: number) => void
 }
 
 export type UsersMapToPropsType = MapStateToPropsType & MapDispatchToProps
@@ -75,7 +79,8 @@ const mapStateToProps = (state: StoreType): MapStateToPropsType =>{
         pageSize: state.usersPage.pageSize,
         totalCount: state.usersPage.totalCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        followingProgress: state.usersPage.followingProgress
     }
 }
 
@@ -98,6 +103,9 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps =>{
         },
         toggleIsFetching: (isFetching: boolean) =>{
             dispatch(toggleIsFetchingAC(isFetching))
+        },
+        toggleIsFollowing: (isFollowing: boolean, userId: number) =>{
+            dispatch(toggleIsFollowingAC(isFollowing, userId))
         }
     }
 }
