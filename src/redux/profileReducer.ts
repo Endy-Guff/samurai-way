@@ -1,4 +1,6 @@
 import {ActionsType, postsDataType, profilePageType, profileType} from "./reduxStore";
+import {Dispatch} from "redux";
+import {profileAPI} from "../api/api";
 
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
@@ -22,10 +24,14 @@ export const addPostActionCreator = (): AddPostActionType =>({type: ADD_POST})
 export const updateNewPostTextActionCreator = (text: string): UpdateNewPostTextActionType =>
     ({type: UPDATE_NEW_POST_TEXT, text})
 export const setUserProfileActionCreator = (profile: profileType): SetUserProfileActionCreator =>{
-    return{
-        type: SET_USER_PROFILE,
-        profile
-    }
+    return {type: SET_USER_PROFILE, profile}
+}
+
+export const getUserTC = (userId: string) => (dispatch: Dispatch) =>{
+    profileAPI.getUser(userId)
+        .then(data => {
+            dispatch(setUserProfileActionCreator(data))
+        })
 }
 
 const initialState: profilePageType = {
