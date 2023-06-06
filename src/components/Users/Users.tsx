@@ -15,7 +15,6 @@ type UsersPropsType = {
     changePage: (p: number) => void
     follow: (id: number) => void
     unfollow: (id: number) => void
-    toggleIsFollowing: (isFollowing: boolean, userId: number) => void
 }
 
 export const Users: React.FC<UsersPropsType> = (
@@ -27,8 +26,7 @@ export const Users: React.FC<UsersPropsType> = (
         followingProgress,
         changePage,
         follow,
-        unfollow,
-        toggleIsFollowing
+        unfollow
     }
 ) => {
 
@@ -52,25 +50,11 @@ export const Users: React.FC<UsersPropsType> = (
                 users.map(u => {
 
                     const followHandler = () =>{
-                        toggleIsFollowing(true, u.id)
-                        usersAPI.follow(u.id)
-                            .then((data)=>{
-                                if (data.resultCode===0){
-                                    follow(u.id)
-                                }
-                                toggleIsFollowing(false, u.id)
-                        })
+                        follow(u.id)
                     }
 
                     const unfollowHandler = () => {
-                        toggleIsFollowing(true, u.id)
-                        usersAPI.unfollow(u.id)
-                            .then((data)=>{
-                                if (data.resultCode===0){
-                                    unfollow(u.id)
-                                }
-                                toggleIsFollowing(false, u.id)
-                            })
+                        unfollow(u.id)
                     }
 
                         return (

@@ -1,4 +1,4 @@
-import {combineReducers, createStore} from "redux";
+import {AnyAction, applyMiddleware, combineReducers, createStore} from "redux";
 import {
     AddPostActionType,
     profileReducer,
@@ -13,8 +13,10 @@ import {
     UnfollowActionType,
     usersReducer
 } from "./usersReducer";
-import * as axios from "axios"
 import {authReducer, setUserDataActionType} from "./authReducer";
+import thunk from "redux-thunk";
+import {ThunkDispatch} from "redux-thunk";
+import {useDispatch} from "react-redux";
 
 export type postsDataType = {
     id: number,
@@ -102,6 +104,8 @@ export type ActionsType = AddPostActionType | UpdateNewPostTextActionType
     | setUserDataActionType | toggleIsFollowingActionType
 
 export type StoreType = ReturnType<typeof reducers>
+export type AppDispatchType = ThunkDispatch<StoreType, any, AnyAction>
+export const useAppDispatch = () => useDispatch<AppDispatchType>()
 
 const reducers = combineReducers({
     profilePage: profileReducer,
@@ -110,7 +114,7 @@ const reducers = combineReducers({
     auth: authReducer
 })
 
-export const store = createStore(reducers)
+export const store = createStore(reducers, applyMiddleware(thunk))
 
 //@ts-ignore
 window.store = store
