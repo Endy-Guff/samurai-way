@@ -2,14 +2,15 @@ import React from "react";
 import s from './Dialogs.module.css';
 import {DialogItem} from "./DialogsItem/DialogsItem";
 import {MessagesItem} from "./MessagesItem/MessagesItem";
-import {dialogsPageType,} from "../../redux/reduxStore";
 import {DialogsMapProps} from "./DialogsContainer";
+import {Navigate} from "react-router-dom";
 
 export const Dialogs: React.FC<DialogsMapProps> = (
     {
         state,
         addMessage,
-        updateNewMessageText
+        updateNewMessageText,
+        isAuth
     }
 ) => {
 
@@ -32,6 +33,8 @@ export const Dialogs: React.FC<DialogsMapProps> = (
                 updateNewMessageText(text)
         }
     }
+
+    if (!isAuth) return <Navigate to={'/login'} />
 
     return (
         <div className={s.dialogs}>

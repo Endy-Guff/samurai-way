@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {getUserTC, setUserProfileActionCreator} from "../../redux/profileReducer";
 import {useParams} from "react-router-dom";
-import {profileAPI} from "../../api/api";
+import {Navigate} from 'react-router-dom'
 
 export function withRouter(Children: any){
     return(props: ProfileMapToPropsType)=>{
@@ -24,6 +24,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     }
 
     render() {
+        if (!this.props.isAuth) return <Navigate to={'/login'}/>
         return (
             <Profile profile={this.props.profile}/>
         );
@@ -37,6 +38,7 @@ type MapDispatchToPropsType = {
 }
 type MapStateToPropsType = {
     profile: profileType
+    isAuth: boolean
 }
 
 type ParamsType = {
@@ -51,7 +53,8 @@ type ProfileContainerPropsType = ParamsType & ProfileMapToPropsType
 
 const MapStateToProps = (state: StoreType): MapStateToPropsType => {
     return {
-        profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        isAuth: state.auth.isAuth
     }
 }
 
