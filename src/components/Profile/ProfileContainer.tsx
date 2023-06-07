@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
 import {Profile} from "./Profile";
 import {AppDispatchType, profileType, StoreType} from "../../redux/reduxStore";
 import {connect} from "react-redux";
-import {Dispatch} from "redux";
 import {getUserTC, setUserProfileActionCreator} from "../../redux/profileReducer";
 import {useParams} from "react-router-dom";
 import {Navigate} from 'react-router-dom'
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 export function withRouter(Children: any){
     return(props: ProfileMapToPropsType)=>{
@@ -66,4 +66,4 @@ const MapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType =
     }
 }
 
-export default connect(MapStateToProps, MapDispatchToProps)(withRouter(ProfileContainer))
+export default withAuthRedirect(connect(MapStateToProps, MapDispatchToProps)(withRouter(ProfileContainer)))
