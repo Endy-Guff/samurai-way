@@ -16,7 +16,9 @@ const mstp = (state: StoreType): mstpType =>{
 export const withAuthRedirect = <T, >(Component: ComponentType<T>) => {
     const RedirectComponent = (props: mstpType) =>{
         const {isAuth, ...restProps} = props
-        if (!props.isAuth) return <Navigate to={'/login'} />
+        if (!props.isAuth) {
+            return <Navigate to={'/login'}/>
+        }
         return <Component {...restProps as T} />
     }
 

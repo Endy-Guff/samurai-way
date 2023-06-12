@@ -1,7 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
 import {AppDispatchType, StoreType, usersDataType} from "../../redux/reduxStore";
-import {AnyAction, Dispatch} from "redux";
 import {
     followAC, followTC, getUsersTC,
     setCurrentPageAC,
@@ -11,7 +10,6 @@ import {
 } from "../../redux/usersReducer";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
-import {usersAPI} from "../../api/api";
 
 export class UsersAPIComponent extends React.Component<UsersMapToPropsType> {
 
