@@ -7,16 +7,20 @@ import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 
 type ProfilePropsType = {
     profile: profileType
+    status: string
+    updateStatus: (status: string) => void
 }
 
 export const Profile: React.FC<ProfilePropsType> = (
     {
-        profile
+        profile,
+        status,
+        updateStatus
     }
 ) => {
     return (
         <div className={s.content}>
-            <ProfileInfo profile={profile} />
+            <ProfileInfo profile={profile} status={status} updateStatus={updateStatus}/>
             <MyPostsContainer
             />
         </div>

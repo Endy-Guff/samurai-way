@@ -1,7 +1,7 @@
 import {AnyAction, applyMiddleware, combineReducers, createStore} from "redux";
 import {
     AddPostActionType,
-    profileReducer,
+    profileReducer, SetStatusActionType,
     SetUserProfileActionCreator,
     UpdateNewPostTextActionType
 } from "./profileReducer";
@@ -58,6 +58,7 @@ export type profileType = null | {
 
 export type profilePageType = {
     profile: profileType
+    status: string
     newPostText: string
     postsData: postsDataType[]
 }
@@ -102,6 +103,7 @@ export type ActionsType = AddPostActionType | UpdateNewPostTextActionType
     | SetCurrentPageActionType | SetTotalCountActionType
     | ToggleIsFetchingActionType | SetUserProfileActionCreator
     | setUserDataActionType | toggleIsFollowingActionType
+    | SetStatusActionType
 
 export type StoreType = ReturnType<typeof reducers>
 export type AppDispatchType = ThunkDispatch<StoreType, any, AnyAction>
