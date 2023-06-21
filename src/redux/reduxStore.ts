@@ -17,6 +17,7 @@ import {authReducer, setUserDataActionType} from "./authReducer";
 import thunk from "redux-thunk";
 import {ThunkDispatch} from "redux-thunk";
 import {useDispatch} from "react-redux";
+import {reducer as formReducer} from 'redux-form'
 
 export type postsDataType = {
     id: number,
@@ -113,7 +114,8 @@ const reducers = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
     usersPage: usersReducer,
-    auth: authReducer
+    auth: authReducer,
+    form: formReducer
 })
 
 export const store = createStore(reducers, applyMiddleware(thunk))
