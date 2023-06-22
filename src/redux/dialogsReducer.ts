@@ -5,19 +5,12 @@ const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
 
 export type AddMessageActionType = {
     type: 'ADD-MESSAGE'
+    message: string
 }
 
-export type UpdateNewMessageTextActionType = {
-    type: 'UPDATE-NEW-MESSAGE-TEXT'
-    text: string
-}
-
-export const addMessageActionCreator = (): AddMessageActionType => ({type: ADD_MESSAGE})
-export const updateNewMessageTextActionCreator = (text: string): UpdateNewMessageTextActionType =>
-    ({type: UPDATE_NEW_MESSAGE_TEXT, text})
+export const addMessageActionCreator = (message: string): AddMessageActionType => ({type: ADD_MESSAGE, message})
 
 const initialState: dialogsPageType = {
-    newMessageText: '',
     dialogsData: [
         {id: 1, name: 'Andy'},
         {id: 2, name: 'Valera'},
@@ -35,13 +28,10 @@ export const dialogsReducer = (state: dialogsPageType = initialState, action: Ac
         case ADD_MESSAGE:
             const newMessageItem: messagesDataType = {
                 id: 4,
-                text: state.newMessageText
+                text: action.message
             }
 
-            return {...state, newMessageText: '', messagesData: [...state.messagesData, newMessageItem]}
-        case UPDATE_NEW_MESSAGE_TEXT:
-            state.newMessageText = action.text
-            return {...state, newMessageText: action.text}
+            return {...state, messagesData: [...state.messagesData, newMessageItem]}
         default:
             return state
     }

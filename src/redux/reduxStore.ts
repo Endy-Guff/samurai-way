@@ -3,9 +3,8 @@ import {
     AddPostActionType,
     profileReducer, SetStatusActionType,
     SetUserProfileActionCreator,
-    UpdateNewPostTextActionType
 } from "./profileReducer";
-import {AddMessageActionType, dialogsReducer, UpdateNewMessageTextActionType} from "./dialogsReducer";
+import {AddMessageActionType, dialogsReducer} from "./dialogsReducer";
 import {
     FollowActionType,
     SetCurrentPageActionType, setTotalCountAC, SetTotalCountActionType,
@@ -60,12 +59,10 @@ export type profileType = null | {
 export type profilePageType = {
     profile: profileType
     status: string
-    newPostText: string
     postsData: postsDataType[]
 }
 
 export type dialogsPageType = {
-    newMessageText: string
     dialogsData: dialogsDataType[],
     messagesData: messagesDataType[]
 }
@@ -98,8 +95,7 @@ export type RootStateType = {
     dialogsPage: dialogsPageType
 }
 
-export type ActionsType = AddPostActionType | UpdateNewPostTextActionType
-    | UpdateNewMessageTextActionType | AddMessageActionType
+export type ActionsType = AddPostActionType | AddMessageActionType
     | FollowActionType | UnfollowActionType | SetUsersActionType
     | SetCurrentPageActionType | SetTotalCountActionType
     | ToggleIsFetchingActionType | SetUserProfileActionCreator
