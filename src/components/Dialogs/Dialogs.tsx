@@ -4,6 +4,8 @@ import {DialogItem} from "./DialogsItem/DialogsItem";
 import {MessagesItem} from "./MessagesItem/MessagesItem";
 import {DialogsMapProps} from "./DialogsContainer";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {maxLength30, maxLength50, required} from "../../utils/validators";
+import {Textarea} from "../FormsControl/FormsControl";
 
 export const Dialogs: React.FC<DialogsMapProps> = (
     {
@@ -46,9 +48,10 @@ type FormDataType = {
 const AddMessageForm = (props: InjectedFormProps<FormDataType>) =>{
     return <form className={s.textareaBox} onSubmit={props.handleSubmit}>
                     <Field className={s.textarea}
-                           component={'textarea'}
+                           component={Textarea}
                            name={'newMessageText'}
                            placeholder={'Tell something'}
+                           validate={[required, maxLength50]}
                     />
         <button className={s.button}>add</button>
     </form>
