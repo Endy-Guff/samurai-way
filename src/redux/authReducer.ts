@@ -1,6 +1,7 @@
 import {ActionsType} from "./reduxStore";
 import {Dispatch} from "redux";
 import {authAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const SET_USER_DATA = 'SET-USER-DATA'
 const CHANGE_IS_AUTH = 'CHANGE-IS-AUTH'
@@ -61,6 +62,9 @@ export const loginTC = (email: string, password: string, rememberMe: boolean) =>
         .then(res=>{
             if (res.data.resultCode === 0){
                 dispatch(getMeTC() as any)
+            } else {
+                const error = res.data.messages.length>0?res.data.messages[0]:'something wrong'
+                dispatch(stopSubmit('login', {_error: error}))
             }
         })
 }

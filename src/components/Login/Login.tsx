@@ -6,6 +6,7 @@ import {loginTC} from "../../redux/authReducer";
 import {AppDispatchType, StoreType} from "../../redux/reduxStore";
 import {connect} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import stylesFormsControl from '../FormsControl/FormsControl.module.css'
 
 const Login = (props: MapDispatchToPropsType&MapStateToPropsType) => {
     const navigate = useNavigate()
@@ -28,13 +29,13 @@ type FormDataType = {
     password: string
     rememberMe: boolean
 }
-
 const LoginForm = (props: InjectedFormProps<FormDataType>) =>{
     return (
         <form onSubmit={props.handleSubmit}>
             <Field type="text" placeholder={'Login'} name={'login'} validate={[required]} component={Input}/>
             <Field type="password" placeholder={'Password'} name={'password'} validate={[required]} component={Input}/>
             <span><Field type="checkbox" name={'rememberMe'} component={'input'}/>remember me</span>
+            {props.error&&<div>{props.error}</div>}
             <button>Login</button>
         </form>
     )
