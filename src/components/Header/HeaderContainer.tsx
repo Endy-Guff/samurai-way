@@ -5,13 +5,10 @@ import {AppDispatchType, StoreType} from "../../redux/reduxStore";
 import {Dispatch} from "redux";
 import {getMeTC, logoutTC, setAuthUserDataAC} from "../../redux/authReducer";
 import {authAPI} from "../../api/api";
+import {useNavigate} from "react-router-dom";
+
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType>{
-
-    componentDidMount() {
-        this.props.getMe()
-    }
-
     render() {
         return <> <Header {...this.props}/> </>
     }
@@ -23,7 +20,6 @@ type MapStateToPropsType = {
     login: null | string
 }
 type MapDispatchToPropsType = {
-    getMe: () => void
     logOut: () => void
 }
 
@@ -36,9 +32,6 @@ const MapStateToProps = (state: StoreType): MapStateToPropsType =>{
 
 const MapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType =>{
     return{
-        getMe: () =>{
-            dispatch(getMeTC())
-        },
         logOut: () =>{
             dispatch(logoutTC())
         }

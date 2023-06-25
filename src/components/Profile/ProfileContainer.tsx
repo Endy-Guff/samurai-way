@@ -3,16 +3,16 @@ import {Profile} from "./Profile";
 import {AppDispatchType, profileType, StoreType} from "../../redux/reduxStore";
 import {connect} from "react-redux";
 import {getUserTC, setStatusTC, setUserProfileActionCreator, updateStatus} from "../../redux/profileReducer";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Navigate} from 'react-router-dom'
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
 export function withRouter(Children: any){
     return(props: ProfileMapToPropsType)=>{
-
+        const navigate = useNavigate()
         const match  = {params: useParams<{id: string}>()};
-        return <Children {...props}  match = {match}/>
+        return <Children {...props}  match = {match} navigate={navigate}/>
     }
 }
 
@@ -20,7 +20,12 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
     componentDidMount() {
         let userId =this.props.match.params.userId
-        if (!userId) userId = this.props.userId!.toString()
+        if (!userId&&this.props.userId) {
+            userId = this.props.userId.toString()
+        } else {
+            this.props.navigate('/login')
+        }
+        debugger
         this.props.getUser(userId)
         this.props.getStatus(userId)
     }
@@ -52,6 +57,7 @@ type ParamsType = {
             userId: string
         }
     }
+    navigate: (url: string)=> void
 }
 
 type ProfileContainerPropsType = ParamsType & ProfileMapToPropsType

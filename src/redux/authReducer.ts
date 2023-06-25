@@ -46,14 +46,14 @@ export const setAuthUserDataAC = (id: null|number, email: null|string, login: nu
 }
 
 export const getMeTC = () => (dispatch: Dispatch) =>{
-    authAPI.getMe()
-        .then(data=>{
-            if (data.resultCode===0){
-                return data.data
+    return authAPI.getMe()
+        .then(res=>{
+            if (res.resultCode===0){
+                dispatch(setAuthUserDataAC(res.data.id, res.data.email, res.data.login, true))
             }
-        })
-        .then(data=> {
-            dispatch(setAuthUserDataAC(data.id, data.email, data.login, true))
+            if (res.resultCode===1){
+                dispatch(setAuthUserDataAC(null, null, null, false))
+            }
         })
 }
 

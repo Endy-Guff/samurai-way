@@ -17,6 +17,7 @@ import thunk from "redux-thunk";
 import {ThunkDispatch} from "redux-thunk";
 import {useDispatch} from "react-redux";
 import {reducer as formReducer} from 'redux-form'
+import {appReducer, setInitializedACType} from "./appReducer";
 
 export type postsDataType = {
     id: number,
@@ -100,7 +101,7 @@ export type ActionsType = AddPostActionType | AddMessageActionType
     | SetCurrentPageActionType | SetTotalCountActionType
     | ToggleIsFetchingActionType | SetUserProfileActionCreator
     | setUserDataActionType | toggleIsFollowingActionType
-    | SetStatusActionType
+    | SetStatusActionType | setInitializedACType
 
 export type StoreType = ReturnType<typeof reducers>
 export type AppDispatchType = ThunkDispatch<StoreType, any, AnyAction>
@@ -111,6 +112,7 @@ const reducers = combineReducers({
     dialogsPage: dialogsReducer,
     usersPage: usersReducer,
     auth: authReducer,
+    app: appReducer,
     form: formReducer
 })
 
