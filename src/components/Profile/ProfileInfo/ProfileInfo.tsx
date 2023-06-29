@@ -3,6 +3,7 @@ import s from './ProfileInfo.module.css'
 import {profileType} from "../../../redux/reduxStore";
 import {Preloader} from "../../common/Preloader/Preloader";
 import {ProfileStatus} from "./ProfileStatus/ProfileStatus";
+import {ProfileStatusWithHooks} from "./ProfileStatus/ProfileStatusWithHooks";
 
 type ProfileInfoType = {
     profile: profileType
@@ -23,7 +24,7 @@ export const ProfileInfo: React.FC<ProfileInfoType> = (
     return(
         <div>
             <img src={profile.photos.large} alt=""/>
-            <ProfileStatus status={status} updateStatus={updateStatus} />
+            <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
         </div>
     )
 }
