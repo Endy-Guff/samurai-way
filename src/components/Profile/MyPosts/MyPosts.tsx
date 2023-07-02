@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from './Post/Post';
 import {MyPostsMapPropsType} from "./MyPostsContainer";
@@ -6,11 +6,10 @@ import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {maxLength30, required} from "../../../utils/validators";
 import {Textarea} from "../../FormsControl/FormsControl";
 
-export const MyPosts: React.FC<MyPostsMapPropsType> = ({
+export const MyPosts: React.FC<MyPostsMapPropsType> = memo(({
     posts,
     addPost,
 }) => {
-
     const postsElement = posts.map(post =>{
         return <Post key={post.id} message={post.message} likesCount={post.likesCount}/>
     })
@@ -32,7 +31,7 @@ export const MyPosts: React.FC<MyPostsMapPropsType> = ({
             </div>
         </div>
     )
-}
+})
 
 type FormDataType = {
     newPostText: string

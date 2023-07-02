@@ -25,7 +25,6 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         } else {
             this.props.navigate('/login')
         }
-        debugger
         this.props.getUser(userId)
         this.props.getStatus(userId)
     }
