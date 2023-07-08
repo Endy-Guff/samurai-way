@@ -2,13 +2,9 @@ import {ActionsType} from "./reduxStore";
 import {Dispatch} from "redux";
 import {getMeTC} from "./authReducer";
 
-type appStateType = typeof initialState
-
 const initialState = {
     initialized: false
 }
-
-export type setInitializedACType = ReturnType<typeof setInitialized>
 
 export const appReducer = (state: appStateType = initialState, action: ActionsType): appStateType =>{
     switch (action.type) {
@@ -20,9 +16,14 @@ export const appReducer = (state: appStateType = initialState, action: ActionsTy
 
 export const setInitialized = () =>({type: 'SET-INITIALIZED'} as const)
 
-export const initializeApp = () => (dispatch: Dispatch<any>)=>{
-    Promise.all([dispatch(getMeTC())])
-        .then(()=> {
-            dispatch(setInitialized())
-        })
+export const initializeApp = () => async (dispatch: Dispatch<any>)=>{
+    const res = await Promise.all([dispatch(getMeTC())])
+    if (res){
+        dispatch(setInitialized())
+    }
 }
+
+// types
+
+type appStateType = typeof initialState
+export type setInitializedACType = ReturnType<typeof setInitialized>
