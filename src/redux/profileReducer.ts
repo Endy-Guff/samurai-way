@@ -3,32 +3,16 @@ import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
 import {stat} from "fs";
 
-const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
-const SET_USER_PROFILE = 'SET_USER_PROFILE'
-const SET_STATUS = 'SET_STATUS'
+export type AddPostActionType = ReturnType<typeof addPostActionCreator>
+export type deletePostActionType = ReturnType<typeof deletePostActionCreator>
+export type SetUserProfileActionCreator = ReturnType<typeof setUserProfileActionCreator>
+export type SetStatusActionType = ReturnType<typeof setStatusAC>
 
-export type AddPostActionType = {
-    type: 'ADD-POST'
-    newPost: string
-}
-
-export type SetUserProfileActionCreator = {
-    type: 'SET_USER_PROFILE'
-    profile: profileType
-}
-
-export type SetStatusActionType = {
-    type: 'SET_STATUS'
-    status: string
-}
-
-export const addPostActionCreator = (newPost: string): AddPostActionType =>({type: ADD_POST,newPost})
-export const setUserProfileActionCreator = (profile: profileType): SetUserProfileActionCreator =>{
-    return {type: SET_USER_PROFILE, profile}
-}
-export const setStatusAC = (status: string): SetStatusActionType =>
-    ({type: SET_STATUS, status})
+export const addPostActionCreator = (newPost: string) =>({type: 'ADD_POST',newPost} as const)
+export const setUserProfileActionCreator = (profile: profileType) =>(
+    {type: 'SET_USER_PROFILE', profile} as const)
+export const deletePostActionCreator = (postId: number) => ({type: 'DELETE-POST', postId} as const)
+export const setStatusAC = (status: string) => ({type: 'SET_STATUS', status} as const)
 
 export const getUserTC = (userId: string) => (dispatch: Dispatch) =>{
     profileAPI.getUser(userId)
@@ -64,17 +48,18 @@ const initialState: profilePageType = {
 
 export const profileReducer = (state: profilePageType = initialState, action: ActionsType): profilePageType => {
     switch (action.type){
-        case ADD_POST:
+        case 'ADD_POST':
             const newPostItem: postsDataType = {
                 id: 4,
                 message: action.newPost,
                 likesCount: 0
             }
-
             return {...state, postsData: [...state.postsData, newPostItem]}
-        case SET_USER_PROFILE:
+        case 'DELETE-POST':
+            return {...state, postsData: state.postsData.filter(el=>el.id!==action.postId)}
+        case 'SET_USER_PROFILE':
             return {...state, profile: action.profile}
-        case SET_STATUS:
+        case 'SET_STATUS':
             return {...state, status: action.status}
         default: return state
     }

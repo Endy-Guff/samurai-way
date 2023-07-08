@@ -1,6 +1,6 @@
 import {AnyAction, applyMiddleware, combineReducers, createStore} from "redux";
 import {
-    AddPostActionType,
+    AddPostActionType, deletePostActionType,
     profileReducer, SetStatusActionType,
     SetUserProfileActionCreator,
 } from "./profileReducer";
@@ -101,7 +101,7 @@ export type ActionsType = AddPostActionType | AddMessageActionType
     | SetCurrentPageActionType | SetTotalCountActionType
     | ToggleIsFetchingActionType | SetUserProfileActionCreator
     | setUserDataActionType | toggleIsFollowingActionType
-    | SetStatusActionType | setInitializedACType
+    | SetStatusActionType | setInitializedACType | deletePostActionType
 
 export type StoreType = ReturnType<typeof reducers>
 export type AppDispatchType = ThunkDispatch<StoreType, any, AnyAction>
