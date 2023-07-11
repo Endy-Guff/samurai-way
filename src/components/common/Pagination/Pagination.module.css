@@ -1,0 +1,17 @@
+
+.pageBox{
+    display: flex;
+}
+
+.page{
+    cursor: pointer;
+    width: 30px;
+    padding: 5px 0;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+}
+
+.page.active{
+    border: 2px solid black;
+}

@@ -3,8 +3,7 @@ import s from "./Users.module.css";
 import localPhoto from "../../assets/img/user.png";
 import {usersDataType} from "../../redux/reduxStore";
 import {NavLink} from "react-router-dom";
-import {usersAPI} from "../../api/api";
-import {toggleIsFollowingAC} from "../../redux/usersReducer";
+import {Pagination} from "../common/Pagination/Pagination";
 
 type UsersPropsType = {
     totalCount: number
@@ -30,22 +29,14 @@ export const Users: React.FC<UsersPropsType> = (
     }
 ) => {
 
-    const pageCount = Math.ceil(totalCount / pageSize)
-    const page = []
-    for (let i = 1; i <= pageCount; i++) {
-        page.push(i)
-    }
-
-
     return (
         <div className={s.wrapper}>
-            <div className={s.pageBox}>
-                {page.map(p => <span
-                    key={p}
-                    className={currentPage === p ? s.page + ' ' + s.active : s.page}
-                    onClick={() => changePage(p)}
-                >{p}</span>)}
-            </div>
+            <Pagination currentPage={currentPage}
+                        totalCount={totalCount}
+                        pageSize={pageSize}
+                        changePage={changePage}
+                        portionSize={10}
+            />
             {
                 users.map(u => {
 

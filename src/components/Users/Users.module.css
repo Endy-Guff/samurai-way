@@ -51,15 +51,3 @@
     display: flex;
     flex-direction: column;
 }
-
-.pageBox{
-    display: flex;
-}
-
-.page{
-    cursor: pointer;
-}
-
-.page.active{
-    font-weight: bold;
-}
