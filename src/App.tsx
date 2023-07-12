@@ -1,25 +1,19 @@
 import React from 'react';
 import './App.css';
-import {Header} from './components/Header/Header';
 import {Navbar} from './components/Navbar/Navbar';
-import {BrowserRouter, Route, Routes, useParams} from "react-router-dom";
-import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {UsersContainer} from "./components/Users/UsersContainer";
-import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import {connect} from "react-redux";
-import {AppDispatchType, RootStateType, StoreType} from "./redux/reduxStore";
-import {getMeTC, logoutTC} from "./redux/authReducer";
-import {compose} from "redux";
+import {AppDispatchType, StoreType} from "./redux/reduxStore";
 import {initializeApp} from "./redux/appReducer";
 import {Preloader} from "./components/common/Preloader/Preloader";
+// import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+// import ProfileContainer from "./components/Profile/ProfileContainer";
 
-type AppPropsType = {
-    // store: StoreType
-    // state: RootStateType
-    // dispatch: (action: ActionsType) => void
-}
+const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
+const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
 
 class App extends React.Component<MapToPropsType> {
 
@@ -38,10 +32,15 @@ class App extends React.Component<MapToPropsType> {
                     <Navbar/>
                     <div className="app-wrapper-content">
                         <Routes>
-                            <Route path='/profile/:userId?' element={<ProfileContainer
-                            />}/>
-                            <Route path='/dialogs/*' element={<DialogsContainer
-                            />}/>
+                            <Route path='/profile/:userId?' element={
+                                <React.Suspense fallback={<Preloader/>}>
+                                    <ProfileContainer/>
+                                </React.Suspense>}/>
+                            <Route path='/dialogs/*' element={
+                                <React.Suspense fallback={<Preloader/>}>
+                                    <DialogsContainer/>
+                                </React.Suspense>
+                            }/>
                             <Route path='/users/*' element={<UsersContainer
                             />}/>
                             <Route path={'/login'} element={<Login/>}/>
@@ -59,7 +58,7 @@ type MapDispatchToPropsType = {
 type MapStateToPropsType = {
     initialized: boolean
 }
-type MapToPropsType = MapStateToPropsType&MapDispatchToPropsType
+type MapToPropsType = MapStateToPropsType & MapDispatchToPropsType
 const MapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType => {
     return {
         initializeApp: () => {
@@ -67,7 +66,7 @@ const MapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType =
         },
     }
 }
-const MapStateToProps = (state: StoreType): MapStateToPropsType=>{
+const MapStateToProps = (state: StoreType): MapStateToPropsType => {
     return {
         initialized: state.app.initialized
     }
