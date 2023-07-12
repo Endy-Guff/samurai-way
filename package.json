@@ -1,8 +1,8 @@
 {
   "name": "samurai-way",
   "version": "0.1.0",
+  "homepage": "https://endy-guff.github.io/samurai-way/",
   "private": true,
-  "homepage": "",
   "dependencies": {
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "12.0.0",
@@ -33,7 +33,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+    "predeploy": "yarn run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
