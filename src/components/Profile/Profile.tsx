@@ -8,6 +8,8 @@ import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 type ProfilePropsType = {
     profile: profileType
     status: string
+    isOwner: boolean
+    savePhoto: (file: File)=>void
     updateStatus: (status: string) => void
 }
 
@@ -15,12 +17,19 @@ export const Profile: React.FC<ProfilePropsType> = (
     {
         profile,
         status,
-        updateStatus
+        updateStatus,
+        isOwner,
+        savePhoto
     }
 ) => {
     return (
         <div className={s.content}>
-            <ProfileInfo profile={profile} status={status} updateStatus={updateStatus}/>
+            <ProfileInfo profile={profile}
+                         status={status}
+                         updateStatus={updateStatus}
+                         isOwner={isOwner}
+                         savePhoto={savePhoto}
+            />
             <MyPostsContainer
             />
         </div>

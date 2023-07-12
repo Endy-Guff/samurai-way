@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import s from './ProfileStatus.module.css'
-import {updateStatus} from "../../../../redux/profileReducer";
 
 type ProfileStatusPropsType = {
     status: string
+    disable: boolean
     updateStatus: (status: string) => void
 }
 
@@ -17,26 +17,25 @@ export const ProfileStatusWithHooks = (props: ProfileStatusPropsType) => {
     }, [props.status])
 
     const changeEditMode = () => {
-        setEditMode(!editMode)
-        if (editMode){
-            props.updateStatus(status)
+        if (!props.disable) {
+            setEditMode(!editMode)
+            if (editMode) {
+                props.updateStatus(status)
+            }
         }
     }
     const changeStatus = ( e: React.ChangeEvent<HTMLInputElement>) =>{
         setStatus(e.currentTarget.value)
     }
-    // componentDidUpdate(prevProps: Readonly<ProfileStatusPropsType>, prevState: Readonly<ProfileStatusStateType>,) {
-    //     if (prevProps.status!==this.props.status){
-    //         this.setState({status:this.props.status})
-    //     }
-    // }
 
         return (
-            <div>
+            <div className={s.wrapper}>
                 {!editMode
                     ? <div>
                         <span onClick={changeEditMode}>
-                           {props.status}
+                           { props.status
+                               ? <p className={s.status}>{props.status}</p>
+                               : <p className={s.statusEmpty}>статус пуст</p>}
                         </span>
                     </div>
                     : <div>

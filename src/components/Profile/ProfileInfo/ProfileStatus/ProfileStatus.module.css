@@ -1,0 +1,13 @@
+.wrapper{
+    min-height: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.status{
+    font-weight: 10;
+}
+
+.statusEmpty{
+    color: rgba(0,0,0,.4);
+}

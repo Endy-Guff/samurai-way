@@ -2,25 +2,31 @@ import React, {ComponentType} from 'react';
 import {Profile} from "./Profile";
 import {AppDispatchType, profileType, StoreType} from "../../redux/reduxStore";
 import {connect} from "react-redux";
-import {getUserTC, setStatusTC, setUserProfileActionCreator, updateStatus} from "../../redux/profileReducer";
+import {
+    getUserTC,
+    savePhotoTC,
+    setStatusTC,
+    setUserProfileActionCreator,
+    updateStatus
+} from "../../redux/profileReducer";
 import {useNavigate, useParams} from "react-router-dom";
 import {Navigate} from 'react-router-dom'
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
-export function withRouter(Children: any){
-    return(props: ProfileMapToPropsType)=>{
+export function withRouter(Children: any) {
+    return (props: ProfileMapToPropsType) => {
         const navigate = useNavigate()
-        const match  = {params: useParams<{id: string}>()};
-        return <Children {...props}  match = {match} navigate={navigate}/>
+        const match = {params: useParams<{ id: string }>()};
+        return <Children {...props} match={match} navigate={navigate}/>
     }
 }
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
-    componentDidMount() {
-        let userId =this.props.match.params.userId
-        if (!userId&&this.props.userId) {
+    refreshProfileInfo() {
+        let userId = this.props.match.params.userId
+        if (!userId && this.props.userId) {
             userId = this.props.userId.toString()
         } else {
             this.props.navigate('/login')
@@ -29,9 +35,23 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
         this.props.getStatus(userId)
     }
 
+    componentDidMount() {
+        this.refreshProfileInfo()
+    }
+
+    componentDidUpdate(prevProps: ProfileContainerPropsType) {
+        if (this.props.match.params.userId !== prevProps.match.params.userId)
+            this.refreshProfileInfo()
+    }
+
     render() {
         return (
-            <Profile profile={this.props.profile} status={this.props.status} updateStatus={this.props.updateStatus}/>
+            <Profile profile={this.props.profile}
+                     status={this.props.status}
+                     updateStatus={this.props.updateStatus}
+                     isOwner={!this.props.match.params.userId}
+                     savePhoto={this.props.savePhoto}
+            />
         );
     }
 }
@@ -42,6 +62,7 @@ type MapDispatchToPropsType = {
     getUser: (userId: string) => void
     updateStatus: (userId: string) => void
     getStatus: (userId: string) => void
+    savePhoto: (file: File)=>void
 }
 type MapStateToPropsType = {
     profile: profileType
@@ -56,7 +77,7 @@ type ParamsType = {
             userId: string
         }
     }
-    navigate: (url: string)=> void
+    navigate: (url: string) => void
 }
 
 type ProfileContainerPropsType = ParamsType & ProfileMapToPropsType
@@ -75,15 +96,17 @@ const MapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType =
         getUser: (userId: string) => {
             dispatch(getUserTC(userId))
         },
-        updateStatus: (status: string) =>{
+        updateStatus: (status: string) => {
             dispatch(updateStatus(status))
         },
-        getStatus: (userId: string) =>{
+        getStatus: (userId: string) => {
             dispatch(setStatusTC(userId))
-    }
+        },
+        savePhoto: (file: File) =>{
+            dispatch(savePhotoTC(file))
+        }
     }
 }
-
 
 
 export default compose<React.ComponentType>(

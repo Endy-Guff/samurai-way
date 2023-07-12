@@ -27,6 +27,8 @@ export const profileReducer = (state: profilePageType = initialState, action: Ac
             return {...state, profile: action.profile}
         case 'SET_STATUS':
             return {...state, status: action.status}
+        case 'SET_PHOTOS':
+            return <profilePageType>{...state, profile: {...state.profile, photos: action.photos}}
         default:
             return state
     }
@@ -37,7 +39,7 @@ export const setUserProfileActionCreator = (profile: profileType) => (
     {type: 'SET_USER_PROFILE', profile} as const)
 export const deletePostActionCreator = (postId: number) => ({type: 'DELETE-POST', postId} as const)
 export const setStatusAC = (status: string) => ({type: 'SET_STATUS', status} as const)
-
+const setPhotoAC = (photos: {small: string,large: string}) => ({type: 'SET_PHOTOS', photos} as const)
 
 export const getUserTC = (userId: string) => async (dispatch: Dispatch) => {
     const data = await profileAPI.getUser(userId)
@@ -55,9 +57,17 @@ export const updateStatus = (status: string) => async (dispatch: Dispatch) => {
     }
 }
 
+export const savePhotoTC = (file: File) => async (dispatch: Dispatch) =>{
+    const data = await profileAPI.savePhoto(file)
+    if(data.resultCode === 0){
+        dispatch(setPhotoAC(data.data.photos))
+    }
+}
+
 // types
 
 export type AddPostActionType = ReturnType<typeof addPostActionCreator>
 export type deletePostActionType = ReturnType<typeof deletePostActionCreator>
 export type SetUserProfileActionCreator = ReturnType<typeof setUserProfileActionCreator>
 export type SetStatusActionType = ReturnType<typeof setStatusAC>
+export type setPhotoActionType = ReturnType<typeof setPhotoAC>
