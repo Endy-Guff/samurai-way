@@ -17,7 +17,7 @@ import thunk from "redux-thunk";
 import {ThunkDispatch} from "redux-thunk";
 import {useDispatch} from "react-redux";
 import {reducer as formReducer} from 'redux-form'
-import {appReducer, setInitializedACType} from "./appReducer";
+import {appReducer, setErrorACType, setErrorMessageACType, setInitializedACType} from "./appReducer";
 
 export type postsDataType = {
     id: number,
@@ -102,7 +102,7 @@ export type ActionsType = AddPostActionType | AddMessageActionType
     | ToggleIsFetchingActionType | SetUserProfileActionCreator
     | setUserDataActionType | toggleIsFollowingActionType
     | SetStatusActionType | setInitializedACType | deletePostActionType
-    | setPhotoActionType
+    | setPhotoActionType | setErrorACType | setErrorMessageACType
 
 export type StoreType = ReturnType<typeof reducers>
 export type AppDispatchType = ThunkDispatch<StoreType, any, AnyAction>

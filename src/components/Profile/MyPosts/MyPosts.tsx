@@ -14,8 +14,6 @@ export const MyPosts: React.FC<MyPostsMapPropsType> = memo(({
         return <Post key={post.id} message={post.message} likesCount={post.likesCount}/>
     })
 
-    const newPostElement = React.createRef<HTMLTextAreaElement>()
-
     const addPostHandler = (data: FormDataType) =>{
         addPost(data.newPostText)
     }

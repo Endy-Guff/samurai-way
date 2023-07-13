@@ -1,6 +1,7 @@
-import {ActionsType, postsDataType, profilePageType, profileType} from "./reduxStore";
+import {ActionsType, postsDataType, profilePageType, profileType, RootStateType, StoreType} from "./reduxStore";
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
+import {setError, setErrorMessage} from "./appReducer";
 
 const initialState: profilePageType = {
     profile: null,
@@ -39,7 +40,7 @@ export const setUserProfileActionCreator = (profile: profileType) => (
     {type: 'SET_USER_PROFILE', profile} as const)
 export const deletePostActionCreator = (postId: number) => ({type: 'DELETE-POST', postId} as const)
 export const setStatusAC = (status: string) => ({type: 'SET_STATUS', status} as const)
-const setPhotoAC = (photos: {small: string,large: string}) => ({type: 'SET_PHOTOS', photos} as const)
+const setPhotoAC = (photos: { small: string, large: string }) => ({type: 'SET_PHOTOS', photos} as const)
 
 export const getUserTC = (userId: string) => async (dispatch: Dispatch) => {
     const data = await profileAPI.getUser(userId)
@@ -57,14 +58,67 @@ export const updateStatus = (status: string) => async (dispatch: Dispatch) => {
     }
 }
 
-export const savePhotoTC = (file: File) => async (dispatch: Dispatch) =>{
+export const savePhotoTC = (file: File) => async (dispatch: Dispatch) => {
     const data = await profileAPI.savePhoto(file)
-    if(data.resultCode === 0){
+    if (data.resultCode === 0) {
         dispatch(setPhotoAC(data.data.photos))
     }
 }
 
+export const updateProfileInfoTC = (updateModal: updateModalType) => async (dispatch: Dispatch, getState: () => StoreType) => {
+    const state = getState()
+    const userId: string = state.auth.id as unknown as string
+
+    const apiModal = {
+        aboutMe: state.profilePage.profile!.aboutMe,
+        userId: state.profilePage.profile!.userId,
+        lookingForAJob: state.profilePage.profile!.lookingForAJob,
+        lookingForAJobDescription: state.profilePage.profile!.lookingForAJobDescription,
+        fullName: state.profilePage.profile!.lookingForAJobDescription,
+        contacts: {
+            github: state.profilePage.profile!.contacts.github,
+            vk: state.profilePage.profile!.contacts.vk,
+            facebook: state.profilePage.profile!.contacts.facebook,
+            instagram: state.profilePage.profile!.contacts.instagram,
+            twitter: state.profilePage.profile!.contacts.twitter,
+            website: state.profilePage.profile!.contacts.website,
+            youtube: state.profilePage.profile!.contacts.youtube,
+            mainLink: state.profilePage.profile!.contacts.mainLink
+        },
+        ...updateModal
+    }
+
+    const data = await profileAPI.updateProfileInfo(apiModal)
+    if (data.resultCode === 0){
+        dispatch(getUserTC(userId) as any)
+    }
+    if (data.resultCode === 1){
+        dispatch(setError(true))
+        dispatch(setErrorMessage(data.messages[0]))
+    }
+
+}
+
 // types
+
+export type updateModalType = {
+    aboutMe?: string
+    userId?: number
+    lookingForAJob?: boolean
+    lookingForAJobDescription?: string
+    fullName?: string
+    contacts?: updateModalContactType
+}
+export type updateModalContactType = {
+    github?: string
+    vk?: string
+    facebook?: string
+    instagram?: string
+    twitter?: string
+    website?: string
+    youtube?: string
+    mainLink?: string
+}
 
 export type AddPostActionType = ReturnType<typeof addPostActionCreator>
 export type deletePostActionType = ReturnType<typeof deletePostActionCreator>

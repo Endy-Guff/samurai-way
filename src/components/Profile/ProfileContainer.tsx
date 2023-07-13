@@ -1,16 +1,14 @@
-import React, {ComponentType} from 'react';
+import React from 'react';
 import {Profile} from "./Profile";
 import {AppDispatchType, profileType, StoreType} from "../../redux/reduxStore";
 import {connect} from "react-redux";
 import {
     getUserTC,
     savePhotoTC,
-    setStatusTC,
-    setUserProfileActionCreator,
+    setStatusTC, updateModalType, updateProfileInfoTC,
     updateStatus
 } from "../../redux/profileReducer";
 import {useNavigate, useParams} from "react-router-dom";
-import {Navigate} from 'react-router-dom'
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
@@ -51,6 +49,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
                      updateStatus={this.props.updateStatus}
                      isOwner={!this.props.match.params.userId}
                      savePhoto={this.props.savePhoto}
+                     updateProfileInfo={this.props.updateProfileInfo}
             />
         );
     }
@@ -63,6 +62,7 @@ type MapDispatchToPropsType = {
     updateStatus: (userId: string) => void
     getStatus: (userId: string) => void
     savePhoto: (file: File)=>void
+    updateProfileInfo: (updateModal: updateModalType)=> void
 }
 type MapStateToPropsType = {
     profile: profileType
@@ -104,6 +104,9 @@ const MapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType =
         },
         savePhoto: (file: File) =>{
             dispatch(savePhotoTC(file))
+        },
+        updateProfileInfo: (updateModal: updateModalType) =>{
+            dispatch(updateProfileInfoTC(updateModal))
         }
     }
 }

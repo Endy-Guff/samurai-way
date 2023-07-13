@@ -1,4 +1,5 @@
 import * as axios from "axios";
+import {updateModalType, updateProfileInfoTC} from "../redux/profileReducer";
 
 const instance = axios.default.create({
     withCredentials: true,
@@ -61,6 +62,11 @@ export const profileAPI = {
 
         return instance
             .put(`profile/photo`, formData, {headers: {'Content-Type': "multipart/form-data"}})
+            .then(res=>res.data)
+    },
+    updateProfileInfo(profileInfo: updateModalType){
+        return instance
+            .put(`profile`, profileInfo)
             .then(res=>res.data)
     }
 }

@@ -9,8 +9,7 @@ import {connect} from "react-redux";
 import {AppDispatchType, StoreType} from "./redux/reduxStore";
 import {initializeApp} from "./redux/appReducer";
 import {Preloader} from "./components/common/Preloader/Preloader";
-// import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
-// import ProfileContainer from "./components/Profile/ProfileContainer";
+import Error from "./components/common/Error/Error";
 
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
@@ -28,6 +27,7 @@ class App extends React.Component<MapToPropsType> {
         return (
             <HashRouter>
                 <div className="App-wrapper">
+                    {this.props.error&&<Error/>}
                     <HeaderContainer/>
                     <Navbar/>
                     <div className="app-wrapper-content">
@@ -57,6 +57,7 @@ type MapDispatchToPropsType = {
 }
 type MapStateToPropsType = {
     initialized: boolean
+    error: boolean
 }
 type MapToPropsType = MapStateToPropsType & MapDispatchToPropsType
 const MapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType => {
@@ -68,7 +69,8 @@ const MapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType =
 }
 const MapStateToProps = (state: StoreType): MapStateToPropsType => {
     return {
-        initialized: state.app.initialized
+        initialized: state.app.initialized,
+        error:state.app.error
     }
 }
 export default connect(MapStateToProps, MapDispatchToProps)(App);

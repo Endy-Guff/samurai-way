@@ -1,0 +1,23 @@
+.wrapper{
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.title{
+    width: 200px;
+}
+
+.input{
+    width: 100px;
+    height: 25px;
+}
+
+.value{
+    width: 100px;
+    height: 25px;
+}
+
+.error{
+    background: #ff0000;
+}
