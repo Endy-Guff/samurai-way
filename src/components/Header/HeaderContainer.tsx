@@ -2,10 +2,7 @@ import React from 'react';
 import {Header} from "./Header";
 import {connect} from "react-redux";
 import {AppDispatchType, StoreType} from "../../redux/reduxStore";
-import {Dispatch} from "redux";
-import {getMeTC, logoutTC, setAuthUserDataAC} from "../../redux/authReducer";
-import {authAPI} from "../../api/api";
-import {useNavigate} from "react-router-dom";
+import {logoutTC} from "../../redux/authReducer/authReducer";
 
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType>{

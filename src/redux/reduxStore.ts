@@ -1,95 +1,23 @@
 import {AnyAction, applyMiddleware, combineReducers, createStore} from "redux";
 import {
-    AddPostActionType, deletePostActionType,
+    AddPostActionType, deletePostActionType, profilePageType,
     profileReducer, setPhotoActionType, SetStatusActionType,
     SetUserProfileActionCreator,
-} from "./profileReducer";
-import {AddMessageActionType, dialogsReducer} from "./dialogsReducer";
+} from "./profileReducer/profileReducer";
+import {AddMessageActionType, dialogsPageType, dialogsReducer} from "./dialogsReducer/dialogsReducer";
 import {
     FollowActionType,
-    SetCurrentPageActionType, setTotalCountAC, SetTotalCountActionType,
+    SetCurrentPageActionType, SetTotalCountActionType,
     SetUsersActionType, ToggleIsFetchingActionType, toggleIsFollowingActionType,
     UnfollowActionType,
     usersReducer
-} from "./usersReducer";
-import {authReducer, setCaptchaUrl, setCaptchaUrlActionType, setUserDataActionType} from "./authReducer";
+} from "./usersReducer/usersReducer";
+import {authReducer, setCaptchaUrlActionType, setUserDataActionType} from "./authReducer/authReducer";
 import thunk from "redux-thunk";
 import {ThunkDispatch} from "redux-thunk";
 import {useDispatch} from "react-redux";
 import {reducer as formReducer} from 'redux-form'
-import {appReducer, setErrorACType, setErrorMessageACType, setInitializedACType} from "./appReducer";
-
-export type postsDataType = {
-    id: number,
-    message: string,
-    likesCount: number
-}
-
-export type dialogsDataType = {
-    id: number,
-    name: string
-}
-
-export type messagesDataType = {
-    id: number,
-    text: string
-}
-
-export type profileType = null | {
-    aboutMe: string
-    contacts: {
-        facebook: string
-        website: string
-        vk: string
-        twitter: string
-        instagram: string
-        youtube: string
-        github: string
-        mainLink: string
-    },
-    lookingForAJob: boolean,
-    lookingForAJobDescription: string
-    fullName: string,
-    userId: number
-    photos: {
-        small: string
-        large: string
-    }
-}
-
-export type profilePageType = {
-    profile: profileType
-    status: string
-    postsData: postsDataType[]
-}
-
-export type dialogsPageType = {
-    dialogsData: dialogsDataType[],
-    messagesData: messagesDataType[]
-}
-
-type usersPhotosDataType = {
-    small: string
-    large: string
-}
-
-export type usersDataType = {
-    name: string
-    id: number
-    photos: usersPhotosDataType
-    status: string
-    followed: boolean
-}
-
-export type usersPageType = {
-    users: usersDataType[]
-    pageSize: number
-    totalCount: number
-    currentPage: number
-    isFetching: boolean
-    followingProgress: number[]
-}
-
+import {appReducer, setErrorACType, setErrorMessageACType, setInitializedACType} from "./appReducer/appReducer";
 
 export type RootStateType = {
     profilePage: profilePageType,

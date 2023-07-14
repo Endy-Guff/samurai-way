@@ -1,6 +1,5 @@
 import React from 'react'
-import {dialogsPageType} from "./reduxStore";
-import {addMessageActionCreator, dialogsReducer} from "./dialogsReducer";
+import {addMessageActionCreator, dialogsPageType, dialogsReducer} from "./dialogsReducer";
 
 const initialState: dialogsPageType = {
     dialogsData: [

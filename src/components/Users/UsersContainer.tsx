@@ -1,13 +1,13 @@
 import React from "react";
 import {connect} from "react-redux";
-import {AppDispatchType, StoreType, usersDataType} from "../../redux/reduxStore";
+import {AppDispatchType, StoreType} from "../../redux/reduxStore";
 import {
-    followAC, followTC, getUsersTC,
+    followTC, getUsersTC,
     setCurrentPageAC,
     setTotalCountAC,
     setUsersAC, toggleIsFetchingAC, toggleIsFollowingAC,
-    unfollowAC, unfollowTC
-} from "../../redux/usersReducer";
+    unfollowTC, usersDataType
+} from "../../redux/usersReducer/usersReducer";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
 import {
@@ -17,7 +17,7 @@ import {
     getPageSize,
     getTotalCount,
     getUsers
-} from "../../redux/usersSelectors";
+} from "../../redux/usersReducer/usersSelectors";
 
 export class UsersAPIComponent extends React.Component<UsersMapToPropsType> {
 

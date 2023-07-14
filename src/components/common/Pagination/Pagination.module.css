@@ -1,17 +1,52 @@
-
-.pageBox{
-    display: flex;
-}
-
-.page{
-    cursor: pointer;
-    width: 30px;
-    padding: 5px 0;
-    border: 1px solid black;
+.pageBox {
+    position: relative;
     display: flex;
     justify-content: center;
 }
 
-.page.active{
-    border: 2px solid black;
+.page {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    padding: 5px 0;
+    background: #e0e0e0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    margin: 0 5px;
+    transition: .3s;
+}
+
+.page:hover{
+    background: #5370B9;
+    color: #ffffff;
+}
+
+.page.active {
+    background: #D9D9D9
+}
+
+.btn {
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    background: #D9D9D9;
+    transition: .3s;
+}
+
+.btn:hover{
+    background: #5370B9;
+    color: #ffffff;
+}
+
+.btn.next {
+    right: 165px;
+}
+
+.btn.prev {
+    left: 165px;
 }

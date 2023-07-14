@@ -1,11 +1,10 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import s from './ProfileInfo.module.css'
-import {profileType} from "../../../redux/reduxStore";
 import {Preloader} from "../../common/Preloader/Preloader";
 import {ProfileStatusWithHooks} from "./ProfileStatus/ProfileStatusWithHooks";
-import localPhoto from "../../../assets/img/user.png";
 import {Info} from "./Info/Info";
-import {updateModalType} from "../../../redux/profileReducer";
+import {profileType, updateModalType} from "../../../redux/profileReducer/profileReducer";
+import {ProfileImg} from "./ProfileImg/ProfileImg";
 
 type ProfileInfoType = {
     profile: profileType
@@ -27,27 +26,12 @@ export const ProfileInfo: React.FC<ProfileInfoType> = (
     }
 ) => {
 
-    const profilePhoto = profile?.photos.large || localPhoto
-
-    const selectPhotoHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.currentTarget.files?.length) {
-            savePhoto(e.currentTarget.files[0])
-        }
-    }
-
     if (!profile) {
         return <Preloader/>
     }
     return (
         <div className={s.wrapper}>
-            <div className={s.imgBox}>
-                <img className={s.profilePhoto} src={profilePhoto} alt=""/>
-                {isOwner &&
-                <div className={s.inputBox}>
-                    <label className={s.label} htmlFor={"fileInput"}></label>
-                    <input className={s.input} id={'fileInput'} type={'file'} onChange={selectPhotoHandler}/>
-                </div>}
-            </div>
+            <ProfileImg profile={profile} savePhoto={savePhoto} isOwner={isOwner}/>
             <div className={s.infoBox}>
                 <ProfileStatusWithHooks status={status}
                                         updateStatus={updateStatus}

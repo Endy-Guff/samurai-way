@@ -1,4 +1,4 @@
-import {ActionsType, dialogsPageType, messagesDataType} from "./reduxStore";
+import {ActionsType} from "../reduxStore";
 
 const initialState: dialogsPageType = {
     dialogsData: [
@@ -31,3 +31,17 @@ export const addMessageActionCreator = (message: string) => ({type: 'ADD_MESSAGE
 // types
 
 export type AddMessageActionType = ReturnType<typeof addMessageActionCreator>
+
+export type dialogsPageType = {
+    dialogsData: dialogsDataType[],
+    messagesData: messagesDataType[]
+}
+export type dialogsDataType = {
+    id: number,
+    name: string
+}
+
+export type messagesDataType = {
+    id: number,
+    text: string
+}

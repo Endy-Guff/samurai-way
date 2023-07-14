@@ -1,6 +1,6 @@
-import {ActionsType} from "./reduxStore";
+import {ActionsType} from "../reduxStore";
 import {Dispatch} from "redux";
-import {getMeTC} from "./authReducer";
+import {getMeTC} from "../authReducer/authReducer";
 
 const initialState = {
     initialized: false,

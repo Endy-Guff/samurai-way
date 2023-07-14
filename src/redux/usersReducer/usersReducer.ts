@@ -1,6 +1,6 @@
-import {ActionsType, usersDataType, usersPageType} from "./reduxStore";
+import {ActionsType} from "../reduxStore";
 import {Dispatch} from "redux";
-import {usersAPI} from "../api/api";
+import {usersAPI} from "../../api/usersAPI";
 
 const initialState: usersPageType = {
     users: [],
@@ -82,3 +82,26 @@ export type SetCurrentPageActionType = ReturnType<typeof setCurrentPageAC>
 export type SetTotalCountActionType = ReturnType<typeof setTotalCountAC>
 export type ToggleIsFetchingActionType = ReturnType<typeof toggleIsFetchingAC>
 export type toggleIsFollowingActionType = ReturnType<typeof toggleIsFollowingAC>
+
+export type usersDataType = {
+    name: string
+    id: number
+    photos: usersPhotosDataType
+    status: string
+    followed: boolean
+}
+
+type usersPhotosDataType = {
+    small: string
+    large: string
+}
+
+export type usersPageType = {
+    users: usersDataType[]
+    pageSize: number
+    totalCount: number
+    currentPage: number
+    isFetching: boolean
+    followingProgress: number[]
+}
+

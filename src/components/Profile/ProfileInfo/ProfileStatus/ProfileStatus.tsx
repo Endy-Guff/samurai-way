@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './ProfileStatus.module.css'
-import {updateStatus} from "../../../../redux/profileReducer";
+import {updateStatus} from "../../../../redux/profileReducer/profileReducer";
 
 type ProfileStatusPropsType = {
     status: string

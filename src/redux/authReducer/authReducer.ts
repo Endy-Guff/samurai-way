@@ -1,7 +1,8 @@
-import {ActionsType} from "./reduxStore";
+import {ActionsType} from "../reduxStore";
 import {Dispatch} from "redux";
-import {authAPI, securityAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
+import {authAPI} from "../../api/authAPI";
+import {securityAPI} from "../../api/securityAPI";
 
 const initialState: authStateType = {
     id: null,

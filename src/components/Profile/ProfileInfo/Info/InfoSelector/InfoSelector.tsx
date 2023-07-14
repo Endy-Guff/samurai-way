@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {updateModalContactType, updateModalType} from "../../../../../redux/profileReducer";
+import {updateModalContactType, updateModalType} from "../../../../../redux/profileReducer/profileReducer";
 import s from "../InfoItem/InfoItem.module.css";
 
 type InfoSelectorPropsType = {

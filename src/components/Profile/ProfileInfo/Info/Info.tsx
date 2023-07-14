@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
 import s from './Info.module.css'
-import {profileType} from "../../../../redux/reduxStore";
 import {InfoItem} from "./InfoItem/InfoItem";
-import {updateModalContactType, updateModalType} from "../../../../redux/profileReducer";
-import {InjectedFormProps, reduxForm} from "redux-form";
+import {profileType, updateModalContactType, updateModalType} from "../../../../redux/profileReducer/profileReducer";
 import {InfoSelector} from "./InfoSelector/InfoSelector";
 
 type InfoPropsType = {

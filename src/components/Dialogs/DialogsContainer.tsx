@@ -1,7 +1,7 @@
 import React from "react";
 import {Dialogs} from "./Dialogs";
-import {dialogsPageType, StoreType} from "../../redux/reduxStore";
-import {addMessageActionCreator} from "../../redux/dialogsReducer";
+import {StoreType} from "../../redux/reduxStore";
+import {addMessageActionCreator, dialogsPageType} from "../../redux/dialogsReducer/dialogsReducer";
 import {connect} from "react-redux";
 import {compose, Dispatch} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
@@ -10,11 +10,9 @@ import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 type MapStateToPropsType = {
     state: dialogsPageType
 }
-
 type MapDispatchToPropsType = {
     addMessage: (message: string)=>void
 }
-
 export type DialogsMapProps = MapStateToPropsType & MapDispatchToPropsType
 
 const mapStateToProps = (state: StoreType): MapStateToPropsType =>{
@@ -22,7 +20,6 @@ const mapStateToProps = (state: StoreType): MapStateToPropsType =>{
         state: state.dialogsPage,
     }
 }
-
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType =>{
     return{
         addMessage: (message:string) =>{
@@ -30,6 +27,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType =>{
         },
     }
 }
+
 const DialogsContainer = compose<React.ComponentType>(
     connect(mapStateToProps, mapDispatchToProps),
     withAuthRedirect

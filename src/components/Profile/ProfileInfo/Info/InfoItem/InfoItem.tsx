@@ -1,10 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import s from './InfoItem.module.css'
-import {updateModalContactType, updateModalType} from "../../../../../redux/profileReducer";
-import {profileType} from "../../../../../redux/reduxStore";
-import {required} from "../../../../../utils/validators";
-import {Input} from "../../../../FormsControl/FormsControl";
-import {Field} from "redux-form";
+import {updateModalContactType, updateModalType} from "../../../../../redux/profileReducer/profileReducer";
 
 type InfoItemPropsType = {
     title: string
@@ -27,7 +23,6 @@ export const InfoItem: React.FC<InfoItemPropsType> = (
         isOwner
     }
 ) => {
-
     const [editMode, setEditMode] = useState<boolean>(false)
     const [inputValue, setInputValue] = useState<string>(value)
     const [error, setError] = useState<boolean>(false)

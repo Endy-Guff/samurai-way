@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import s from './Error.module.css'
 import {connect} from "react-redux";
 import {AppDispatchType, StoreType} from "../../../redux/reduxStore";
-import {setError} from "../../../redux/appReducer";
+import {setError} from "../../../redux/appReducer/appReducer";
 
 const Error = (props: ErrorPropsType) => {
 

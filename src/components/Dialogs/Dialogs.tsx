@@ -4,7 +4,7 @@ import {DialogItem} from "./DialogsItem/DialogsItem";
 import {MessagesItem} from "./MessagesItem/MessagesItem";
 import {DialogsMapProps} from "./DialogsContainer";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {maxLength30, maxLength50, required} from "../../utils/validators";
+import {maxLength50, required} from "../../utils/validators";
 import {Textarea} from "../FormsControl/FormsControl";
 
 export const Dialogs: React.FC<DialogsMapProps> = (

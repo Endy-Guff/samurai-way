@@ -1,7 +1,7 @@
-import {ActionsType, postsDataType, profilePageType, profileType, RootStateType, StoreType} from "./reduxStore";
+import {ActionsType, StoreType} from "../reduxStore";
 import {Dispatch} from "redux";
-import {profileAPI} from "../api/api";
-import {setError, setErrorMessage} from "./appReducer";
+import {setError, setErrorMessage} from "../appReducer/appReducer";
+import {profileAPI} from "../../api/profileAPI";
 
 const initialState: profilePageType = {
     profile: null,
@@ -96,10 +96,15 @@ export const updateProfileInfoTC = (updateModal: updateModalType) => async (disp
         dispatch(setError(true))
         dispatch(setErrorMessage(data.messages[0]))
     }
-
 }
 
 // types
+
+export type AddPostActionType = ReturnType<typeof addPostActionCreator>
+export type deletePostActionType = ReturnType<typeof deletePostActionCreator>
+export type SetUserProfileActionCreator = ReturnType<typeof setUserProfileActionCreator>
+export type SetStatusActionType = ReturnType<typeof setStatusAC>
+export type setPhotoActionType = ReturnType<typeof setPhotoAC>
 
 export type updateModalType = {
     aboutMe?: string
@@ -120,8 +125,36 @@ export type updateModalContactType = {
     mainLink?: string
 }
 
-export type AddPostActionType = ReturnType<typeof addPostActionCreator>
-export type deletePostActionType = ReturnType<typeof deletePostActionCreator>
-export type SetUserProfileActionCreator = ReturnType<typeof setUserProfileActionCreator>
-export type SetStatusActionType = ReturnType<typeof setStatusAC>
-export type setPhotoActionType = ReturnType<typeof setPhotoAC>
+export type profileType = null | {
+    aboutMe: string
+    contacts: {
+        facebook: string
+        website: string
+        vk: string
+        twitter: string
+        instagram: string
+        youtube: string
+        github: string
+        mainLink: string
+    },
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string
+    fullName: string,
+    userId: number
+    photos: {
+        small: string
+        large: string
+    }
+}
+
+export type profilePageType = {
+    profile: profileType
+    status: string
+    postsData: postsDataType[]
+}
+
+export type postsDataType = {
+    id: number,
+    message: string,
+    likesCount: number
+}

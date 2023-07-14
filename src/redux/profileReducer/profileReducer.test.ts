@@ -1,6 +1,5 @@
 import React from 'react'
-import {addPostActionCreator, deletePostActionCreator, profileReducer} from "./profileReducer";
-import {profilePageType} from "./reduxStore";
+import {addPostActionCreator, deletePostActionCreator, profilePageType, profileReducer} from "./profileReducer";
 
 const initialState: profilePageType = {
     profile: null,

@@ -5,7 +5,7 @@ import loader from "../../../assets/img/loader.gif";
 export const Preloader = () => {
     return (
         <div className={s.wrapper}>
-            <img src={loader} alt=""/>
+            <img className={s.img} src={loader} alt=""/>
         </div>
     );
 };

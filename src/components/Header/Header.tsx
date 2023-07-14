@@ -16,7 +16,7 @@ export function Header(props: HeaderPropsType){
         <div className={s.authBox}>
             {props.isAuth?props.login:<NavLink to={'/login'} />}
         </div>
-        {props.isAuth&&<button onClick={logOutHandler}>Log Out</button>}
+        {props.isAuth&&<button className={s.btn} onClick={logOutHandler}>Log Out</button>}
     </header>
     )
 }
