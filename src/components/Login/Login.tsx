@@ -19,7 +19,7 @@ const Login = (props: MapDispatchToPropsType&MapStateToPropsType) => {
     return (
         <div>
             <h1>Login</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
+            <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
         </div>
     );
 };
@@ -28,36 +28,41 @@ type FormDataType = {
     login: string
     password: string
     rememberMe: boolean
+    captcha: string
 }
-const LoginForm = (props: InjectedFormProps<FormDataType>) =>{
+const LoginForm = (props:{captchaUrl:string|null}&InjectedFormProps<FormDataType,{captchaUrl:string|null}>) =>{
     return (
         <form onSubmit={props.handleSubmit}>
             <Field type="text" placeholder={'Login'} name={'login'} validate={[required]} component={Input}/>
             <Field type="password" placeholder={'Password'} name={'password'} validate={[required]} component={Input}/>
             <span><Field type="checkbox" name={'rememberMe'} component={'input'}/>remember me</span>
             {props.error&&<div>{props.error}</div>}
+            {props.captchaUrl&& <img src={props.captchaUrl} alt=""/>}
+            {props.captchaUrl&& <Field type="captcha" placeholder={'captcha'} name={'captcha'} validate={[required]} component={Input}/>}
             <button>Login</button>
         </form>
     )
 }
 
-const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm)
+const LoginReduxForm = reduxForm<FormDataType, {captchaUrl: string|null}>({form: 'login'})(LoginForm)
 
 type MapStateToPropsType = {
+    captchaUrl: string|null
     isAuth: boolean
 }
 type MapDispatchToPropsType = {
-    login: ({login, password, rememberMe}: FormDataType)=>void
+    login: ({login, password, rememberMe, captcha}: FormDataType)=>void
 }
 const MapStateToProps = (state: StoreType): MapStateToPropsType =>{
     return{
+        captchaUrl: state.auth.captchaUrl,
         isAuth: state.auth.isAuth
     }
 }
 const MapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType =>{
     return{
-        login: ({login, password, rememberMe}: FormDataType)=>{
-            dispatch(loginTC(login, password, rememberMe))
+        login: ({login, password, rememberMe, captcha}: FormDataType)=>{
+            dispatch(loginTC(login, password, rememberMe, captcha))
     }
 }
 }

@@ -12,7 +12,7 @@ import {
     UnfollowActionType,
     usersReducer
 } from "./usersReducer";
-import {authReducer, setUserDataActionType} from "./authReducer";
+import {authReducer, setCaptchaUrl, setCaptchaUrlActionType, setUserDataActionType} from "./authReducer";
 import thunk from "redux-thunk";
 import {ThunkDispatch} from "redux-thunk";
 import {useDispatch} from "react-redux";
@@ -103,6 +103,7 @@ export type ActionsType = AddPostActionType | AddMessageActionType
     | setUserDataActionType | toggleIsFollowingActionType
     | SetStatusActionType | setInitializedACType | deletePostActionType
     | setPhotoActionType | setErrorACType | setErrorMessageACType
+    | setCaptchaUrlActionType
 
 export type StoreType = ReturnType<typeof reducers>
 export type AppDispatchType = ThunkDispatch<StoreType, any, AnyAction>
