@@ -3,6 +3,9 @@ import {Dispatch} from "redux";
 import {stopSubmit} from "redux-form";
 import {authAPI} from "../../api/authAPI";
 import {securityAPI} from "../../api/securityAPI";
+import {ResultCode} from "../../types/enums";
+import {setError, setErrorMessage} from "../appReducer/appReducer";
+import {AxiosError} from "axios";
 
 const initialState: authStateType = {
     id: null,
@@ -30,32 +33,52 @@ export const setAuthUserDataAC = (id: null | number, email: null | string, login
 export const setCaptchaUrl = (url: string) => ({type: 'SET-CAPTCHA', url} as const)
 
 export const getMeTC = () => async (dispatch: Dispatch) => {
-    const res = await authAPI.getMe()
-    if (res.resultCode === 0) {
-        dispatch(setAuthUserDataAC(res.data.id, res.data.email, res.data.login, true))
+    try {
+        const res = await authAPI.getMe()
+        if (res.resultCode === ResultCode.Success) {
+            dispatch(setAuthUserDataAC(res.data.id, res.data.email, res.data.login, true))
+        }
+        if (res.resultCode === ResultCode.Error) {
+            dispatch(setAuthUserDataAC(null, null, null, false))
+        }
     }
-    if (res.resultCode === 1) {
-        dispatch(setAuthUserDataAC(null, null, null, false))
+    catch (e: any) {
+        dispatch(setError(true))
+        dispatch(setErrorMessage(e.message))
     }
+
 }
 
 export const loginTC = (email: string, password: string, rememberMe: boolean, captcha: string) => async (dispatch: Dispatch) => {
-    const res = await authAPI.login(email, password, rememberMe, captcha)
-    if (res.data.resultCode === 0) {
-        dispatch(getMeTC() as any)
-    } else {
-        if (res.data.resultCode===10){
-            dispatch(getCaptcha() as any )
+    try {
+        const res = await authAPI.login(email, password, rememberMe, captcha)
+        if (res.data.resultCode === ResultCode.Success) {
+            dispatch(getMeTC() as any)
+        } else {
+            if (res.data.resultCode===ResultCode.Captcha){
+                dispatch(getCaptcha() as any )
+            }
+            const error = res.data.messages.length > 0 ? res.data.messages[0] : 'something wrong'
+            dispatch(stopSubmit('login', {_error: error}))
         }
-        const error = res.data.messages.length > 0 ? res.data.messages[0] : 'something wrong'
-        dispatch(stopSubmit('login', {_error: error}))
     }
+    catch (e:any) {
+        dispatch(setError(true))
+        dispatch(setErrorMessage(e.message))
+    }
+
 }
 
 export const logoutTC = () => async (dispatch: Dispatch) => {
-    const res = await authAPI.logout()
-    if (res.data.resultCode === 0) {
-        dispatch(setAuthUserDataAC(null, null, null, false))
+    try {
+        const res = await authAPI.logout()
+        if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setAuthUserDataAC(null, null, null, false))
+        }
+    }
+    catch (e:any) {
+        dispatch(setError(true))
+        dispatch(setErrorMessage(e.message))
     }
 }
 

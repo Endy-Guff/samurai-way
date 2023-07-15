@@ -1,5 +1,6 @@
-import {instance, ResponseType} from "./commonAPI";
+import {instance} from "./commonAPI";
 import {usersDataType} from "../redux/usersReducer/usersReducer";
+import {ResponseType} from "../types/commonTypes";
 
 export const usersAPI = {
     getUsers(pageSize: number, currentPage: number) {

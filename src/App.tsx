@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {Navbar} from './components/Navbar/Navbar';
-import {HashRouter, Route, Routes} from "react-router-dom";
+import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
@@ -10,6 +10,7 @@ import {AppDispatchType, StoreType} from "./redux/reduxStore";
 import {initializeApp} from "./redux/appReducer/appReducer";
 import {Preloader} from "./components/common/Preloader/Preloader";
 import Error from "./components/common/Error/Error";
+import {NotFound} from "./components/common/NotFound/NotFound";
 
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
@@ -27,11 +28,12 @@ class App extends React.Component<MapToPropsType> {
         return (
             <HashRouter>
                 <div className="App-wrapper">
-                    {this.props.error&&<Error/>}
+                    {this.props.error && <Error/>}
                     <HeaderContainer/>
                     <Navbar/>
                     <div className="app-wrapper-content">
                         <Routes>
+                            <Route path='/' element={<Navigate to={'/profile'}/>}/>
                             <Route path='/profile/:userId?' element={
                                 <React.Suspense fallback={<Preloader/>}>
                                     <ProfileContainer/>
@@ -44,6 +46,7 @@ class App extends React.Component<MapToPropsType> {
                             <Route path='/users/*' element={<UsersContainer
                             />}/>
                             <Route path={'/login'} element={<Login/>}/>
+                            <Route path={'*'} element={<NotFound/>}/>
                         </Routes>
                     </div>
                 </div>
@@ -70,7 +73,7 @@ const MapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType =
 const MapStateToProps = (state: StoreType): MapStateToPropsType => {
     return {
         initialized: state.app.initialized,
-        error:state.app.error
+        error: state.app.error
     }
 }
 export default connect(MapStateToProps, MapDispatchToProps)(App);

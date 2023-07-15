@@ -1,6 +1,8 @@
 import {ActionsType} from "../reduxStore";
 import {Dispatch} from "redux";
 import {usersAPI} from "../../api/usersAPI";
+import {ResultCode} from "../../types/enums";
+import {setError, setErrorMessage} from "../appReducer/appReducer";
 
 const initialState: usersPageType = {
     users: [],
@@ -49,28 +51,65 @@ export const toggleIsFollowingAC = (isFollowing: boolean, userId: number) =>
 
 export const getUsersTC = (pageSize: number, currentPage: number) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetchingAC(true))
-    const data = await usersAPI.getUsers(pageSize, currentPage)
-    dispatch(setUsersAC(data.items))
-    dispatch(setTotalCountAC(data.totalCount))
-    dispatch(toggleIsFetchingAC(false))
+    try {
+        const data = await usersAPI.getUsers(pageSize, currentPage)
+        dispatch(setUsersAC(data.items))
+        dispatch(setTotalCountAC(data.totalCount))
+        dispatch(toggleIsFetchingAC(false))
+    }
+    catch (e:any){
+        dispatch(setError(true))
+        dispatch(setErrorMessage(e.message))
+    }
+    finally {
+        dispatch(toggleIsFetchingAC(false))
+    }
+
 }
 
 export const followTC = (userId: number) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFollowingAC(true, userId))
-    const data = await usersAPI.follow(userId)
-    if (data.resultCode === 0) {
-        dispatch(followAC(userId))
+    try {
+        const data = await usersAPI.follow(userId)
+        if (data.resultCode === ResultCode.Success) {
+            dispatch(followAC(userId))
+        }
+        if (data.resultCode === ResultCode.Error) {
+            setError(true)
+            setErrorMessage(data.messages[0])
+        }
     }
-    dispatch(toggleIsFollowingAC(false, userId))
+    catch (e:any) {
+        setError(true)
+        setErrorMessage(e.message)
+    }
+    finally {
+        dispatch(toggleIsFollowingAC(false, userId))
+    }
+
 }
 
 export const unfollowTC = (userId: number) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFollowingAC(true, userId))
-    const data = await usersAPI.unfollow(userId)
-    if (data.resultCode === 0) {
-        dispatch(unfollowAC(userId))
+    try {
+        const data = await usersAPI.unfollow(userId)
+        if (data.resultCode === ResultCode.Success) {
+            dispatch(unfollowAC(userId))
+        }
+        if (data.resultCode === ResultCode.Error) {
+            setError(true)
+            setErrorMessage(data.messages[0])
+        }
     }
-    dispatch(toggleIsFollowingAC(false, userId))
+    catch (e: any) {
+        setError(true)
+        setErrorMessage(e.message)
+    }
+    finally {
+        dispatch(toggleIsFollowingAC(false, userId))
+
+    }
+
 }
 
 // types

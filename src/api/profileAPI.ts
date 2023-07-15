@@ -1,5 +1,6 @@
-import {instance, ResponseType} from "./commonAPI";
+import {instance} from "./commonAPI";
 import {profileType, updateModalType} from "../redux/profileReducer/profileReducer";
+import {ResponseType} from "../types/commonTypes";
 
 export const profileAPI = {
     getUser(userId: string) {

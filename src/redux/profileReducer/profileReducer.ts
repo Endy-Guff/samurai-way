@@ -2,6 +2,7 @@ import {ActionsType, StoreType} from "../reduxStore";
 import {Dispatch} from "redux";
 import {setError, setErrorMessage} from "../appReducer/appReducer";
 import {profileAPI} from "../../api/profileAPI";
+import {ResultCode} from "../../types/enums";
 
 const initialState: profilePageType = {
     profile: null,
@@ -43,26 +44,61 @@ export const setStatusAC = (status: string) => ({type: 'SET_STATUS', status} as 
 const setPhotoAC = (photos: { small: string, large: string }) => ({type: 'SET_PHOTOS', photos} as const)
 
 export const getUserTC = (userId: string) => async (dispatch: Dispatch) => {
-    const data = await profileAPI.getUser(userId)
-    dispatch(setUserProfileActionCreator(data))
+    try {
+        const data = await profileAPI.getUser(userId)
+        dispatch(setUserProfileActionCreator(data))
+    }
+    catch (e:any) {
+        dispatch(setError(true))
+        dispatch(setErrorMessage(e.message))
+    }
+
 }
 export const setStatusTC = (userId: string) => async (dispatch: Dispatch) => {
-    const data = await profileAPI.getStatus(userId)
-    dispatch(setStatusAC(data))
+    try {
+        const data = await profileAPI.getStatus(userId)
+        dispatch(setStatusAC(data))
+    }
+    catch (e:any) {
+        dispatch(setError(true))
+        dispatch(setErrorMessage(e.message))
+    }
 }
 
 export const updateStatus = (status: string) => async (dispatch: Dispatch) => {
-    const data = await profileAPI.updateStatus(status)
-    if (data.resultCode === 0) {
-        dispatch(setStatusAC(status))
+    try {
+        const data = await profileAPI.updateStatus(status)
+        if (data.resultCode === ResultCode.Success) {
+            dispatch(setStatusAC(status))
+        }
+        if (data.resultCode === ResultCode.Error) {
+            dispatch(setError(true))
+            dispatch(setErrorMessage(data.messages[0]))
+        }
     }
+    catch (e:any) {
+        dispatch(setError(true))
+        dispatch(setErrorMessage(e.message))
+    }
+
 }
 
 export const savePhotoTC = (file: File) => async (dispatch: Dispatch) => {
-    const data = await profileAPI.savePhoto(file)
-    if (data.resultCode === 0) {
-        dispatch(setPhotoAC(data.data.photos))
+    try {
+        const data = await profileAPI.savePhoto(file)
+        if (data.resultCode === ResultCode.Success) {
+            dispatch(setPhotoAC(data.data.photos))
+        }
+        if (data.resultCode === ResultCode.Error) {
+            dispatch(setError(true))
+            dispatch(setErrorMessage(data.messages[0]))
+        }
     }
+    catch (e:any) {
+        dispatch(setError(true))
+        dispatch(setErrorMessage(e.message))
+    }
+
 }
 
 export const updateProfileInfoTC = (updateModal: updateModalType) => async (dispatch: Dispatch, getState: () => StoreType) => {
@@ -87,15 +123,21 @@ export const updateProfileInfoTC = (updateModal: updateModalType) => async (disp
         },
         ...updateModal
     }
-
-    const data = await profileAPI.updateProfileInfo(apiModal)
-    if (data.resultCode === 0){
-        dispatch(getUserTC(userId) as any)
+    try {
+        const data = await profileAPI.updateProfileInfo(apiModal)
+        if (data.resultCode === ResultCode.Success){
+            dispatch(getUserTC(userId) as any)
+        }
+        if (data.resultCode === ResultCode.Error){
+            dispatch(setError(true))
+            dispatch(setErrorMessage(data.messages[0]))
+        }
     }
-    if (data.resultCode === 1){
+    catch (e:any) {
         dispatch(setError(true))
-        dispatch(setErrorMessage(data.messages[0]))
+        dispatch(setErrorMessage(e.message))
     }
+
 }
 
 // types

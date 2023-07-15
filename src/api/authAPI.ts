@@ -1,4 +1,5 @@
-import {instance, ResponseType} from "./commonAPI";
+import {instance} from "./commonAPI";
+import {ResponseType} from "../types/commonTypes";
 
 export const authAPI = {
     getMe() {
