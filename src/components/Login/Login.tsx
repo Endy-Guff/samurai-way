@@ -6,7 +6,7 @@ import {loginTC} from "../../redux/authReducer/authReducer";
 import {AppDispatchType, StoreType} from "../../redux/reduxStore";
 import {connect} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import stylesFormsControl from '../FormsControl/FormsControl.module.css'
+import s from './Login.module.css'
 
 const Login = (props: MapDispatchToPropsType&MapStateToPropsType) => {
     const navigate = useNavigate()
@@ -17,7 +17,18 @@ const Login = (props: MapDispatchToPropsType&MapStateToPropsType) => {
     if (props.isAuth) navigate('/profile')
 
     return (
-        <div>
+        <div className={s.wrapper}>
+            <div className={s.info}>
+                <p>
+                    To log in get registered{" "}
+                    <a href={"https://social-network.samuraijs.com/"} target={"_blank"} rel="noreferrer">
+                        here
+                    </a>
+                </p>
+                <p>or use common test account credentials:</p>
+                <p> Email: free@samuraijs.com</p>
+                <p>Password: free</p>
+            </div>
             <h1>Login</h1>
             <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
         </div>
@@ -35,11 +46,11 @@ const LoginForm = (props:{captchaUrl:string|null}&InjectedFormProps<FormDataType
         <form onSubmit={props.handleSubmit}>
             <Field type="text" placeholder={'Login'} name={'login'} validate={[required]} component={Input}/>
             <Field type="password" placeholder={'Password'} name={'password'} validate={[required]} component={Input}/>
-            <span><Field type="checkbox" name={'rememberMe'} component={'input'}/>remember me</span>
+            <span className={s.rememberMe}><Field type="checkbox" name={'rememberMe'} component={'input'}/><p>remember me</p></span>
             {props.error&&<div>{props.error}</div>}
             {props.captchaUrl&& <img src={props.captchaUrl} alt=""/>}
             {props.captchaUrl&& <Field type="captcha" placeholder={'captcha'} name={'captcha'} validate={[required]} component={Input}/>}
-            <button>Login</button>
+            <button className={s.btn}>Login</button>
         </form>
     )
 }
