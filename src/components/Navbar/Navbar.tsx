@@ -8,9 +8,9 @@ export function Navbar(){
       <li className={s.nav_item}><NavLink to="/profile" className = { navData => navData.isActive ? s.active : s.item }>Profile</NavLink></li>
       <li className={s.nav_item}><NavLink to="/dialogs" className = { navData => navData.isActive ? s.active : s.item }>Messages</NavLink></li>
       <li className={s.nav_item}><NavLink to="/users" className = { navData => navData.isActive ? s.active : s.item }>Users</NavLink></li>
-      <li className={s.nav_item}>News</li>
-      <li className={s.nav_item}>Music</li>
-      <li className={s.nav_item}>Settings</li>
+      <li className={s.nav_item}><span>News</span></li>
+      <li className={s.nav_item}><span>Music</span></li>
+      <li className={s.nav_item}><span>Settings</span></li>
     </ul>
   </nav>
 }

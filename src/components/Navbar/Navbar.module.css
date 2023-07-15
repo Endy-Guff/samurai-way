@@ -15,8 +15,8 @@
     flex-direction: column;
     gap: 5px;
 }
-
-.nav_item a{
+.nav_item a,
+.nav_item span{
     color: #000;
     font-weight: 600;
     text-decoration: none;
